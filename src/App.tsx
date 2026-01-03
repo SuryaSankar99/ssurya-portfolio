@@ -15,19 +15,19 @@ import {
   Rocket,
   Server,
   Smartphone,
-  Sun
+  Sun,
 } from "lucide-react";
 import { useState } from "react";
 
 const stats = [
   {
     label: "Years Experience",
-    value: "5+",
+    value: "2+",
     icon: <Calendar className="w-4 h-4" />,
   },
   {
     label: "Projects Completed",
-    value: "40+",
+    value: "15+",
     icon: <Rocket className="w-4 h-4" />,
   },
   { label: "Tech Stack", value: "12+", icon: <Cpu className="w-4 h-4" /> },
@@ -59,26 +59,34 @@ const skillCategories = [
 
 const projects = [
   {
-    title: "Magma-CMS",
+    title: "Magma CMS",
     description:
-      "A multi-tenant, headless CMS with database-per-project isolation. Supports PostgreSQL, MySQL, and MSSQL with RBAC and event-driven automation.",
-    tags: ["Next.js", "Knex.js", "PostgreSQL", "JWT"],
+      "A scalable, multi-tenant headless CMS with database-per-project isolation, role-based access control (RBAC), and event-driven automation. Supports PostgreSQL, MySQL, Sqlite and MSSQL.",
+    tags: ["Next.js", "Knex.js", "PostgreSQL", "RBAC", "JWT"],
     link: "#",
     type: "Web",
   },
   {
-    title: "Full-Stack IPTV Solution",
+    title: "Full-Stack IPTV Streaming Platform",
     description:
-      "SignalR-powered live streaming platform with dynamic content management and real-time updates.",
-    tags: ["React", ".NET", "MySQL", "SignalR"],
+      "A high-performance IPTV streaming platform built with .NET, featuring SignalR-powered real-time updates and a dynamic content management system.",
+    tags: [".NET", "React", "MySQL", "SignalR"],
     link: "#",
     type: "Web",
   },
   {
     title: "Member Management System",
     description:
-      "Secure JWT-authenticated application for subscription handling, payment workflows, and admin monitoring.",
-    tags: ["Vite.js", ".NET Core", "Tailwind"],
+      "A secure, JWT-authenticated membership management system featuring subscription handling, payment workflows, admin dashboards, and a real-time chat system built with FastAPI WebSockets.",
+    tags: ["Vite.js", "FastAPI", "JWT", "WebSockets", "Tailwind CSS"],
+    link: "#",
+    type: "Web",
+  },
+  {
+    title: "Real-Time Chat Application",
+    description:
+      "A real-time chat application with media sharing and live previews, built using .NET and SignalR, backed by MySQL for scalable message storage.",
+    tags: [".NET", "SignalR", "MySQL", "WebSockets"],
     link: "#",
     type: "Web",
   },
@@ -91,6 +99,17 @@ export default function Portfolio() {
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
     document.documentElement.classList.toggle("dark");
+  };
+
+  const scrollToSection = (id: string) => {
+    const section = document.getElementById(id);
+    if (!section) return;
+
+    const yOffset = -100;
+    const y =
+      section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+    window.scrollTo({ top: y, behavior: "smooth" });
   };
 
   const filteredProjects =
@@ -114,7 +133,10 @@ export default function Portfolio() {
           animate={{ y: 0, opacity: 1 }}
           className="flex items-center justify-between rounded-full border border-border/40 bg-background/60 p-2 backdrop-blur-xl shadow-2xl"
         >
-          <div className="flex items-center gap-2">
+          <div
+            onClick={() => scrollToSection("hero")}
+            className="flex items-center gap-2 cursor-pointer"
+          >
             <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-xs">
               S
             </div>
@@ -123,12 +145,13 @@ export default function Portfolio() {
             </span>
           </div>
           <div className="hidden md:flex items-center gap-1">
-            {["About", "Work", "Stack", "Contact"].map((item) => (
+            {["About", "Experience", "Work", "Contact"].map((item) => (
               <Button
                 key={item}
                 variant="ghost"
                 size="sm"
-                className="rounded-full px-4 hover:bg-primary/10"
+                className="rounded-full px-4 hover:bg-primary/10 cursor-pointer"
+                onClick={() => scrollToSection(item)}
               >
                 {item}
               </Button>
@@ -158,7 +181,10 @@ export default function Portfolio() {
         </motion.div>
       </nav>
 
-      <section className="container mx-auto px-4 pt-32 pb-20 text-center">
+      <section
+        id="hero"
+        className="container mx-auto px-4 pt-32 pb-20 text-center"
+      >
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -179,8 +205,8 @@ export default function Portfolio() {
             digital solutions.
           </h1>
           <p className="mx-auto max-w-2xl text-lg md:text-xl text-muted-foreground mb-10 leading-relaxed">
-            MERN Stack & Next.js specialist focused on high-performance web
-            applications and seamless mobile experiences with React Native.
+            Specializing in MERN Stack, Next.js, and React Native to deliver
+            fast, scalable web and mobile applications.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Button
@@ -190,26 +216,30 @@ export default function Portfolio() {
               View My Work <ChevronRight className="ml-2 w-4 h-4" />
             </Button>
             <div className="flex gap-2">
-              <Button
-                size="lg"
-                variant="outline"
-                className="rounded-full w-14 h-14 p-0"
-              >
-                <Github className="w-5 h-5" />
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="rounded-full w-14 h-14 p-0"
-              >
-                <Linkedin className="w-5 h-5" />
-              </Button>
+              <a href="https://github.com/SuryaSankar99">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="rounded-full w-14 h-14 p-0"
+                >
+                  <Github className="w-5 h-5" />
+                </Button>
+              </a>
+              <a href="https://www.linkedin.com/in/surya-s-444797272/">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="rounded-full w-14 h-14 p-0"
+                >
+                  <Linkedin className="w-5 h-5" />
+                </Button>
+              </a>
             </div>
           </div>
         </motion.div>
       </section>
 
-      <section className="container mx-auto px-4 py-12">
+      <section id="About" className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
           {stats.map((stat, i) => (
             <div
@@ -255,7 +285,10 @@ export default function Portfolio() {
         </div>
       </section>
 
-      <section className="container mx-auto px-4 py-20 max-w-4xl">
+      <section
+        id="Experience"
+        className="container mx-auto px-4 py-20 max-w-4xl"
+      >
         <div className="flex items-center gap-4 mb-12">
           <div className="h-px flex-1 bg-border"></div>
           <h2 className="text-3xl font-bold tracking-tight">Experience</h2>
@@ -267,19 +300,22 @@ export default function Portfolio() {
             title="Software Engineer"
             company="Pranati Technologies"
             date="Aug 2025 – Present"
-            desc="Developing scalable web apps using Next.js & TypeScript, improving performance by 30%."
+            desc="Developing scalable web applications using Next.js and TypeScript, building real-time features with WebSockets and SignalR, and delivering high-performance .NET-powered websites and IPTV streaming solutions."
             current
           />
           <ExperienceCard
             title="Junior Software Engineer"
             company="Pranati Technologies"
             date="Oct 2023 – Jul 2025"
-            desc="Built responsive UIs using Tailwind CSS and managed CMS solutions with Strapi/WordPress."
+            desc="Built responsive user interfaces using Tailwind CSS and contributed to backend development with Node.js, Express.js, and .NET while managing CMS solutions with Strapi and WordPress."
           />
         </div>
       </section>
 
-      <section className="container mx-auto px-4 py-20 bg-muted/30 rounded-[3rem]">
+      <section
+        id="Work"
+        className="container mx-auto px-4 py-20 bg-muted/30 rounded-[3rem]"
+      >
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 px-4">
             <div>
@@ -352,7 +388,10 @@ export default function Portfolio() {
         </div>
       </section>
 
-      <footer className="container mx-auto px-4 pt-32 pb-10 text-center">
+      <footer
+        id="Contact"
+        className="container mx-auto px-4 pt-32 pb-10 text-center"
+      >
         <h2 className="text-4xl md:text-6xl font-bold mb-8">
           Let's work together.
         </h2>
