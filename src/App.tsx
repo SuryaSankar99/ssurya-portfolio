@@ -19,10 +19,48 @@ import {
 import { useEffect, useState } from "react";
 
 const skillCategories = [
-  { name: "Frontend Engineering", skills: ["React.js", "Next.js", "TypeScript", "Redux Toolkit", "Zustand", "Tailwind CSS", "Framer Motion"], icon: <Layout className="text-white" /> },
-  { name: "Backend & APIs", skills: ["Node.js", "Express.js", "REST", "JWT", "RBAC", "Microservices", "Redis Caching"], icon: <Server className="text-white" /> },
-  { name: "Database & ORM", skills: ["PostgreSQL", "MySQL", "MongoDB", "Prisma", "Knex.js", "Optimization"], icon: <Database className="text-white" /> },
-  { name: "Real-Time & DevOps", skills: ["SignalR", "WebSockets", "Docker", "CI/CD", "Linux", "PM2"], icon: <Wifi className="text-white" /> },
+  {
+    name: "Frontend Architecture",
+    skills: ["React.js", "Vite.js", "Next.js", "TypeScript", "Tailwind CSS", "Shadcn", "SEO", "React Query", "Redux", "Context", "Zustand", "Shadcn UI", "Framer Motion", "Responsive Design", "ZOD"],
+    icon: <Layout />,
+    span: "md:col-span-2",
+    description: "Building SEO-optimized, responsive interfaces with complex state management."
+  },
+  {
+    name: "Backend & Security",
+    skills: ["Node.js", "Express.js", "REST API", "JWT", "RBAC", "OAuth 2.0", "Redis"],
+    icon: <Server />,
+    span: "md:col-span-1",
+    description: "Secure, scalable API design with pattern-based architecture."
+  },
+  {
+    name: "Database Engineering",
+    skills: ["PostgreSQL", "MySQL", "MongoDB", "MariaDB", "SQLite", "Knex.js", "Prisma", "Schema Design"],
+    icon: <Database />,
+    span: "md:col-span-1",
+    description: "Specialized in database-per-tenant isolation and query optimization."
+  },
+    {
+    name: "DevOps & Tooling",
+    skills: ["Docker", "GitHub Actions", "PM2", "Linux", "npm Distribution", "CLI Dev", "AWS Exposure", "Vercel", "Netlify", "GitHub Pages", "Docker", "CI/CD Pipelines"],
+    icon: <Rocket />,
+    span: "md:col-span-2",
+    description: "Automating deployments and publishing open-source packages."
+  },
+  {
+    name: "Real-Time Systems",
+    skills: ["SignalR", "WebSockets", "Event-Driven Mail", "Streaming SDKs", "Concurreny", "Streaming"],
+    icon: <Wifi />,
+    span: "md:col-span-1",
+    description: "Handled 1,000+ concurrent users for chat and live IPTV synchronization."
+  },
+  {
+    name: "Architecture & QA",
+    skills: ["Microservices", "System Design", "Unit Testing (Jest)", "API Testing", "Agile", ],
+    icon: <Cpu />,
+    span: "md:col-span-1",
+    description: "End-to-end validation and modular service orchestration."
+  }
 ];
 
 const projects = [
@@ -30,7 +68,7 @@ const projects = [
     title: "Magma CMS",
     type: "Headless Platform",
     desc: "Multi-tenant headless CMS with database-per-tenant isolation, dynamic RBAC, and event-driven email workflows.",
-    tags: ["Next.js", "Node.js", "PostgreSQL", "Knex"],
+    tags: ["Next.js", "Node.js", "PostgreSQL", "Vercel"],
     color: "from-blue-600/20 to-cyan-600/20",
     accent: "bg-cyan-500",
     link: "https://magmacms.vercel.app/projects"
@@ -196,37 +234,74 @@ export default function Portfolio() {
       </section>
 
       <section className="container mx-auto px-4 py-32 border-t border-white/5" id="corestack">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-          <div>
-            <Badge className="bg-white/5 text-white border-white/10 mb-6 rounded-full px-4">Technical Proficiency</Badge>
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-20">
+          {/* Left Side: Sticky Header */}
+          <div className="lg:w-1/3 lg:sticky lg:top-32 h-fit">
+            <Badge className="bg-blue-500/10 text-blue-400 border-blue-500/20 mb-6 rounded-full px-4 py-1 backdrop-blur-md">
+              Technical Proficiency
+            </Badge>
             <h2 className="text-6xl md:text-8xl font-black tracking-tighter mb-10 leading-[0.85]">
               CORE <br /><span className="text-blue-500 italic">STACK</span>
             </h2>
-            <p className="text-slate-400 text-xl max-w-md font-light leading-relaxed">
-              Architecting solutions with a focus on <span className="text-white">concurrency</span>, <span className="text-white">real-time sync</span>, and <span className="text-white">data isolation</span>.
+            <p className="text-slate-400 text-xl font-light leading-relaxed">
+              Engineering scalable systems with a focus on <span className="text-white font-medium">high-availability</span>,
+              <span className="text-white font-medium"> real-time synchronization</span>, and
+              <span className="text-white font-medium"> multi-tenant security</span>.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+          {/* Right Side: Bento Grid */}
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={{
+              hidden: { opacity: 0 },
+              show: { opacity: 1, transition: { staggerChildren: 0.1 } }
+            }}
+            className="lg:w-2/3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4"
+          >
             {skillCategories.map((cat, i) => (
               <motion.div
                 key={i}
-                whileHover={{ scale: 1.02 }}
-                className="p-8 rounded-[2rem] bg-white/2 border border-white/5 hover:border-blue-500/50 transition-all group shadow-2xl"
+                variants={{
+                  hidden: { y: 20, opacity: 0 },
+                  show: { y: 0, opacity: 1 }
+                }}
+                className={`group relative p-8 rounded-[2rem] bg-white/2 border border-white/5 hover:border-blue-500/50 transition-all duration-500 overflow-hidden ${cat.span}`}
               >
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="p-3 rounded-xl bg-blue-500/10 text-blue-500">{cat.icon}</div>
-                  <span className="font-black text-[10px] uppercase tracking-widest">{cat.name}</span>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {cat.skills.map(s => (
-                    <span key={s} className="text-[9px] font-bold px-3 py-1.5 bg-white/5 rounded-lg text-slate-400 border border-white/5 group-hover:border-white/10 transition-colors">
-                      {s}
-                    </span>
-                  ))}
+                <div className="absolute inset-0 bg-linear-to-br from-blue-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                <div className="relative z-10 h-full flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center justify-between mb-8">
+                      <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-blue-400 group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-white transition-all duration-500">
+                        {cat.icon}
+                      </div>
+                      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-600">
+                  // {i + 1}
+                      </span>
+                    </div>
+
+                    <h3 className="text-xl font-bold uppercase tracking-tight mb-4 group-hover:text-blue-400 transition-colors">
+                      {cat.name}
+                    </h3>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2 mt-auto">
+                    {cat.skills.map((s) => (
+                      <span
+                        key={s}
+                        className="text-[9px] font-bold px-3 py-1.5 bg-white/5 rounded-md text-slate-500 border border-white/5 group-hover:border-blue-500/20 group-hover:text-slate-300 transition-all"
+                      >
+                        {s}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -294,7 +369,7 @@ export default function Portfolio() {
               company="Pranati Technologies"
               date="2025 - PRESENT"
               isLatest
-              desc="Leading the development of multi-tenant architectures and IPTV streaming cores. Specializing in .NET/SignalR real-time synchronization and high-performance Next.js interfaces."
+              desc="Leading the development of multi-tenant architectures. Managed full-lifecycle deployments using AWS (EC2/S3) for heavy lifting and Vercel for frontend edge performance. Automated delivery via GitHub Actions."
             />
             <TimelineItem
               role="Junior Software Engineer"
