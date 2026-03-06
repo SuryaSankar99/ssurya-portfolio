@@ -32,7 +32,8 @@ const projects = [
     desc: "Multi-tenant headless CMS with database-per-tenant isolation, dynamic RBAC, and event-driven email workflows.",
     tags: ["Next.js", "Node.js", "PostgreSQL", "Knex"],
     color: "from-blue-600/20 to-cyan-600/20",
-    accent: "bg-cyan-500"
+    accent: "bg-cyan-500",
+    link: "https://magmacms.vercel.app/projects"
   },
   {
     title: "IPTV Stream",
@@ -40,7 +41,8 @@ const projects = [
     desc: "Scalable web platform supporting live streaming, subscriptions, and SignalR-based client synchronization.",
     tags: ["React", ".NET", "SignalR", "MySQL"],
     color: "from-purple-600/20 to-pink-600/20",
-    accent: "bg-purple-500"
+    accent: "bg-purple-500",
+    link: "https://iptv.pranatitechnologies.com/home"
   },
   {
     title: "Member System",
@@ -48,7 +50,8 @@ const projects = [
     desc: "Membership platform handling subscriptions and secure payments with secure JWT and real-time admin monitoring.",
     tags: ["TypeScript", ".NET Core", "Tailwind", "SignalR"],
     color: "from-emerald-600/20 to-teal-600/20",
-    accent: "bg-emerald-500"
+    accent: "bg-emerald-500",
+    link: "https://mms.pranatitechnologies.com/home"
   },
   {
     title: "RT Module",
@@ -56,7 +59,8 @@ const projects = [
     desc: "Scalable messaging module supporting 1,000+ concurrent users with optimized message persistence.",
     tags: [".NET", "SignalR", "MySQL", "Real-Time"],
     color: "from-orange-600/20 to-amber-600/20",
-    accent: "bg-orange-500"
+    accent: "bg-orange-500",
+    link: ""
   },
 ];
 
@@ -110,7 +114,7 @@ export default function Portfolio() {
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 blur-[150px] rounded-full animate-pulse" />
         <div className="absolute bottom-[10%] right-[-5%] w-[30%] h-[30%] bg-blue-600/10 blur-[120px] rounded-full" />
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.05] brightness-100" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:64px_64px]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-size-[64px_64px]" />
       </div>
 
       <div className="fixed inset-0 z-0 pointer-events-none">
@@ -166,7 +170,7 @@ export default function Portfolio() {
         </div>
 
         <motion.div animate={{ y: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 2 }} className="absolute bottom-10 left-1/2 -translate-x-1/2">
-          <div className="w-[1px] h-12 bg-linear-to-b from-primary to-transparent" />
+          <div className="w-px h-12 bg-linear-to-b from-primary to-transparent" />
         </motion.div>
       </motion.section>
 
@@ -176,7 +180,7 @@ export default function Portfolio() {
             <motion.div
               key={i}
               whileHover={{ y: -5, backgroundColor: "rgba(255,255,255,0.05)" }}
-              className="relative p-10 rounded-[2.5rem] bg-white/[0.02] border border-white/5 flex flex-col justify-between h-[280px] overflow-hidden group transition-all"
+              className="relative p-10 rounded-[2.5rem] bg-white/2 border border-white/5 flex flex-col justify-between h-70 overflow-hidden group transition-all"
             >
               <div className={`absolute -right-4 -top-4 w-32 h-32 bg-linear-to-br ${stat.color} opacity-0 group-hover:opacity-10 blur-3xl transition-opacity`} />
               <div className={`w-14 h-14 rounded-2xl bg-linear-to-br ${stat.color} flex items-center justify-center text-white shadow-2xl`}>
@@ -207,7 +211,7 @@ export default function Portfolio() {
               <motion.div
                 key={i}
                 whileHover={{ scale: 1.02 }}
-                className="p-8 rounded-[2rem] bg-white/[0.02] border border-white/5 hover:border-blue-500/50 transition-all group shadow-2xl"
+                className="p-8 rounded-[2rem] bg-white/2 border border-white/5 hover:border-blue-500/50 transition-all group shadow-2xl"
               >
                 <div className="flex items-center gap-4 mb-8">
                   <div className="p-3 rounded-xl bg-blue-500/10 text-blue-500">{cat.icon}</div>
@@ -264,8 +268,10 @@ export default function Portfolio() {
                     </div>
                   </div>
                   <div className="relative group/btn">
-                    <Button className="h-24 w-24 rounded-full bg-white text-black hover:bg-blue-600 hover:text-white transition-all duration-500 p-0 shadow-2xl">
-                      <ExternalLink className="w-8 h-8 group-hover/btn:scale-125 transition-transform" />
+                    <Button asChild className="h-24 w-24 rounded-full bg-white text-black hover:bg-blue-600 hover:text-white transition-all duration-500 p-0 shadow-2xl">
+                      <a href={p.link}>
+                        <ExternalLink className="w-8 h-8 group-hover/btn:scale-125 transition-transform" />
+                      </a>
                     </Button>
                   </div>
                 </div>
@@ -301,7 +307,7 @@ export default function Portfolio() {
       </section>
 
       <footer id="Contact" className="container mx-auto px-4 py-40 text-center relative border-t border-white/5">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-linear-to-r from-transparent via-blue-500 to-transparent" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-linear-to-r from-transparent via-blue-500 to-transparent" />
 
         <motion.div
           whileInView={{ y: [20, 0], opacity: [0, 1] }}
@@ -341,7 +347,7 @@ function TimelineItem({ role, company, date, desc, isLatest }: any) {
       viewport={{ once: true }}
       className="group relative pl-16 border-l border-white/10 py-16 hover:border-blue-500 transition-all"
     >
-      <div className={`absolute left-[-6px] top-20 h-3 w-3 rounded-full border-2 border-[#050505] transition-all duration-500 ${isLatest ? 'bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,1)]' : 'bg-slate-700 group-hover:bg-blue-500'}`} />
+      <div className={`absolute -left-1.5 top-20 h-3 w-3 rounded-full border-2 border-[#050505] transition-all duration-500 ${isLatest ? 'bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,1)]' : 'bg-slate-700 group-hover:bg-blue-500'}`} />
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
         <div>
           <span className="text-[10px] font-black tracking-[0.3em] text-blue-500 uppercase mb-2 block">{date}</span>
