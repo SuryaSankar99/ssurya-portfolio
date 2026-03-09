@@ -186,45 +186,44 @@ export default function Portfolio() {
         <Badge variant="outline" className="mb-6 py-2 px-6 rounded-full border-white/10 bg-white/5 text-white tracking-[0.3em] font-black uppercase text-[10px]">
           Software Architect // 2026
         </Badge>
-        <h1 className="text-[12vw] md:text-[8rem] font-black leading-[0.8] tracking-tighter mb-8 italic">
-          SURYA <span className="text-primary NOT-italic font-black text-outline">SANKAR</span>
+        <h1 className="text-[14vw] sm:text-[12vw] md:text-[8rem] font-black leading-[0.9] md:leading-[0.8] tracking-tighter mb-8 italic break-words w-full">
+          SURYA <span className="text-primary NOT-italic font-black text-outline block sm:inline">SANKAR</span>
         </h1>
-        <p className="max-w-2xl text-slate-400 text-lg md:text-2xl font-light leading-relaxed mb-12">
+        <p className="max-w-2xl text-slate-400 text-base md:text-2xl font-light leading-relaxed mb-12 px-2">
           Hardening the <span className="text-white font-medium italic">core</span> refining the <span className="text-white font-medium">edge.</span> Specialized in mission-critical architectures and liquid UI.
         </p>
-        <div className="flex flex-col sm:flex-row gap-6">
-          <Button asChild size="lg" className="h-16 px-10 rounded-full bg-white text-black hover:bg-primary hover:text-white transition-all duration-500 font-black uppercase tracking-widest text-xs group">
+        <div className="flex flex-col sm:flex-row gap-4 md:gap-6 w-full sm:w-auto px-6 sm:px-0">
+          <Button asChild size="lg" className="h-14 md:h-16 px-8 md:px-10 rounded-full bg-white text-black hover:bg-primary hover:text-white transition-all duration-500 font-black uppercase tracking-widest text-[10px] md:text-xs group">
             <a href="#corestack">
               Start Exploration <MoveUpRight className="ml-2 w-4 h-4 group-hover:rotate-45 transition-transform" />
             </a>
           </Button>
-          <Button variant="outline" size="lg" className="h-16 px-10 rounded-full border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md font-black uppercase tracking-widest text-xs" asChild>
-            <a download href="/SURYA.pdf">
-              Download CV
-            </a>
+          <Button variant="outline" size="lg" className="h-14 md:h-16 px-8 md:px-10 rounded-full border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md font-black uppercase tracking-widest text-[10px] md:text-xs" asChild>
+            <a download href="/SURYA.pdf">Download CV</a>
           </Button>
         </div>
 
-        <motion.div animate={{ y: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 2 }} className="absolute bottom-10 left-1/2 -translate-x-1/2">
+        <motion.div animate={{ y: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 2 }} className="absolute bottom-10 left-1/2 -translate-x-1/2 hidden md:block">
           <div className="w-px h-12 bg-linear-to-b from-primary to-transparent" />
         </motion.div>
       </motion.section>
 
-      <section id="About" className="container mx-auto px-4 py-32 relative z-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-7xl mx-auto">
+      <section id="About" className="container mx-auto px-4 py-20 md:py-32 relative z-10 overflow-hidden">
+        {/* FIX 4: Better mobile grid handling */}
+        <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-4 max-w-7xl mx-auto">
           {stats.map((stat, i) => (
             <motion.div
               key={i}
               whileHover={{ y: -5, backgroundColor: "rgba(255,255,255,0.05)" }}
-              className="relative p-10 rounded-[2.5rem] bg-white/2 border border-white/5 flex flex-col justify-between h-70 overflow-hidden group transition-all"
+              className="relative p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] bg-white/2 border border-white/5 flex flex-col justify-between h-48 md:h-70 overflow-hidden group transition-all"
             >
-              <div className={`absolute -right-4 -top-4 w-32 h-32 bg-linear-to-br ${stat.color} opacity-0 group-hover:opacity-10 blur-3xl transition-opacity`} />
-              <div className={`w-14 h-14 rounded-2xl bg-linear-to-br ${stat.color} flex items-center justify-center text-white shadow-2xl`}>
+              <div className={`absolute -right-4 -top-4 w-32 h-32 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-10 blur-3xl transition-opacity`} />
+              <div className={`w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-gradient-to-br ${stat.color} flex items-center justify-center text-white shadow-2xl`}>
                 {stat.icon}
               </div>
               <div>
-                <motion.div className="text-6xl font-black tracking-tighter mb-2 italic">{stat.value}</motion.div>
-                <div className="text-[10px] uppercase tracking-[0.3em] text-slate-500 font-black">{stat.label}</div>
+                <motion.div className="text-4xl md:text-6xl font-black tracking-tighter mb-1 italic">{stat.value}</motion.div>
+                <div className="text-[9px] md:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] text-slate-500 font-black">{stat.label}</div>
               </div>
             </motion.div>
           ))}
@@ -303,50 +302,43 @@ export default function Portfolio() {
         </div>
       </section>
 
-      <section id="Work" className="container mx-auto px-4 py-32 bg-white/1">
+      <section id="Work" className="container mx-auto px-4 py-20 md:py-32 relative overflow-hidden">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8 px-4">
-            <div>
-              <h2 className="text-7xl md:text-9xl font-black tracking-tighter uppercase italic opacity-20 absolute -translate-y-1/2 pointer-events-none">Projects</h2>
-              <h2 className="text-5xl md:text-7xl font-black tracking-tighter relative z-10">ENGINEERED <br /> <span className="text-blue-500">SYSTEMS</span></h2>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-24 gap-8">
+            <div className="relative">
+              <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase italic opacity-10 absolute top-0 left-0 -translate-y-1/2 pointer-events-none whitespace-nowrap">Projects</h2>
+              <h2 className="text-4xl md:text-7xl font-black tracking-tighter relative z-10 leading-none">ENGINEERED <br /> <span className="text-blue-500">SYSTEMS</span></h2>
             </div>
-            <Button variant="link" className="font-black uppercase tracking-[0.3em] text-[10px] text-white flex items-center gap-3">
-              Source Code Repository <Github className="w-4 h-4" />
-            </Button>
           </div>
 
-          <div className="grid grid-cols-1 gap-10">
+          <div className="grid grid-cols-1 gap-6 md:gap-10">
             {projects.map((p, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className={`group relative p-1 px-1 rounded-[3.5rem] bg-linear-to-br ${p.color} border border-white/10 overflow-hidden transition-all hover:border-white/20`}
+                className={`group relative p-px rounded-[2rem] md:rounded-[3.5rem] bg-gradient-to-br ${p.color} border border-white/10 overflow-hidden transition-all`}
               >
-                <div className="bg-[#080808] rounded-[3.4rem] p-10 md:p-16 flex flex-col md:flex-row justify-between items-center gap-12">
-                  <div className="flex-1 space-y-8">
-                    <div className="flex items-center gap-4">
+                <div className="bg-[#080808] rounded-[1.9rem] md:rounded-[3.4rem] p-6 md:p-16 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-12">
+                  <div className="flex-1 space-y-4 md:space-y-8">
+                    <div className="flex items-center gap-3">
                       <div className={`w-2 h-2 rounded-full ${p.accent} animate-pulse`} />
-                      <span className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-500">{p.type}</span>
+                      <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">{p.type}</span>
                     </div>
-                    <h3 className="text-5xl md:text-7xl font-black tracking-tighter group-hover:text-blue-500 transition-colors">{p.title}</h3>
-                    <p className="text-slate-400 max-w-xl text-lg font-light leading-relaxed">{p.desc}</p>
-                    <div className="flex flex-wrap gap-3">
+                    <h3 className="text-3xl md:text-7xl font-black tracking-tighter group-hover:text-blue-400 transition-colors leading-tight">{p.title}</h3>
+                    <p className="text-slate-400 max-w-xl text-sm md:text-lg font-light leading-relaxed">{p.desc}</p>
+                    <div className="flex flex-wrap gap-2 md:gap-3">
                       {p.tags.map(t => (
-                        <Badge key={t} className="rounded-full bg-white/5 border-white/10 text-slate-400 py-1.5 px-5 font-bold hover:text-white transition-colors cursor-default">
+                        <Badge key={t} className="rounded-full bg-white/5 border-white/10 text-slate-400 py-1 px-3 md:px-5 text-[10px] md:text-xs font-bold">
                           {t}
                         </Badge>
                       ))}
                     </div>
                   </div>
-                  <div className="relative group/btn">
-                    <Button asChild className="h-24 w-24 rounded-full bg-white text-black hover:bg-blue-600 hover:text-white transition-all duration-500 p-0 shadow-2xl">
-                      <a href={p.link}>
-                        <ExternalLink className="w-8 h-8 group-hover/btn:scale-125 transition-transform" />
-                      </a>
-                    </Button>
-                  </div>
+                  <Button asChild className="h-16 w-16 md:h-24 md:w-24 rounded-full bg-white text-black hover:bg-blue-600 hover:text-white transition-all shrink-0">
+                    <a href={p.link}><ExternalLink className="w-6 h-6 md:w-8 md:h-8" /></a>
+                  </Button>
                 </div>
               </motion.div>
             ))}
