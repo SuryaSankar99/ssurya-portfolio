@@ -17,6 +17,7 @@ import {
   Wifi
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import Navbar from "./components/Navbar";
 
 const skillCategories = [
   {
@@ -40,7 +41,7 @@ const skillCategories = [
     span: "md:col-span-1",
     description: "Specialized in database-per-tenant isolation and query optimization."
   },
-    {
+  {
     name: "DevOps & Tooling",
     skills: ["Docker", "GitHub Actions", "PM2", "Linux", "npm Distribution", "CLI Dev", "AWS Exposure", "Vercel", "Netlify", "GitHub Pages", "Docker", "CI/CD Pipelines"],
     icon: <Rocket />,
@@ -56,7 +57,7 @@ const skillCategories = [
   },
   {
     name: "Architecture & QA",
-    skills: ["Microservices", "System Design", "Unit Testing (Jest)", "API Testing", "Agile", ],
+    skills: ["Microservices", "System Design", "Unit Testing (Jest)", "API Testing", "Agile",],
     icon: <Cpu />,
     span: "md:col-span-1",
     description: "End-to-end validation and modular service orchestration."
@@ -105,11 +106,6 @@ const projects = [
 export default function Portfolio() {
   const { scrollYProgress } = useScroll();
   const [experiences, setExperiences] = useState<string>("");
-
-  const scrollToSection = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) window.scrollTo({ top: el.offsetTop - 100, behavior: "smooth" });
-  };
 
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.9]);
@@ -161,7 +157,7 @@ export default function Portfolio() {
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay" />
       </div>
 
-      <nav className="fixed top-8 left-0 right-0 z-50 flex justify-center px-4">
+      {/* <nav className="fixed top-8 left-0 right-0 z-50 flex justify-center px-4">
         <motion.div
           initial={{ y: -50, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
           className="flex items-center gap-1 p-1.5 rounded-full border border-white/10 bg-black/40 backdrop-blur-2xl shadow-[0_0_40px_rgba(0,0,0,0.5)]"
@@ -182,7 +178,9 @@ export default function Portfolio() {
             </Button>
           </a>
         </motion.div>
-      </nav>
+      </nav> */}
+
+      <Navbar />
 
       <motion.section id="hero" style={{ opacity, scale }} className="relative h-screen flex flex-col items-center justify-center text-center px-4 z-10">
         <Badge variant="outline" className="mb-6 py-2 px-6 rounded-full border-white/10 bg-white/5 text-white tracking-[0.3em] font-black uppercase text-[10px]">
