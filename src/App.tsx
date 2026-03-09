@@ -112,24 +112,12 @@ export default function Portfolio() {
 
   useEffect(() => {
     const joiningDate = new Date("2023-10-01");
-
-    const now = new Date(
-      new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
-    );
-
+    const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
     let years = now.getFullYear() - joiningDate.getFullYear();
     let months = now.getMonth() - joiningDate.getMonth();
     let days = now.getDate() - joiningDate.getDate();
-
-    if (days < 0) {
-      months -= 1;
-    }
-
-    if (months < 0) {
-      years -= 1;
-      months += 12;
-    }
-
+    if (days < 0) months -= 1;
+    if (months < 0) { years -= 1; months += 12; }
     setExperiences(`${years}Y ${months}M`);
   }, []);
 
@@ -140,53 +128,30 @@ export default function Portfolio() {
     { label: "Users", value: "4K+", icon: <Users />, color: "from-emerald-500 to-teal-600" },
   ];
 
-
   return (
-    <div className="min-h-screen bg-[#050505] text-white selection:bg-primary/50 overflow-x-hidden max-w-full font-sans relative">
-
+    <div className="min-h-screen bg-[#050505] text-white selection:bg-primary/50 overflow-x-hidden max-w-[100vw] font-sans relative">
+      
+      {/* Background Layer - Strict clipping for mobile blurs */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 blur-[150px] rounded-full animate-pulse" />
         <div className="absolute bottom-[10%] right-[-5%] w-[30%] h-[30%] bg-blue-600/10 blur-[120px] rounded-full" />
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.05] brightness-100" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-size-[64px_64px]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:64px_64px]" />
       </div>
 
-      <div className="fixed inset-0 z-0 pointer-events-none">
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-blue-900/10 blur-[180px] rounded-full" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-900/10 blur-[180px] rounded-full" />
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay" />
       </div>
 
-      {/* <nav className="fixed top-8 left-0 right-0 z-50 flex justify-center px-4">
-        <motion.div
-          initial={{ y: -50, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
-          className="flex items-center gap-1 p-1.5 rounded-full border border-white/10 bg-black/40 backdrop-blur-2xl shadow-[0_0_40px_rgba(0,0,0,0.5)]"
-        >
-          {["About", "Work", "Experience", "Contact"].map((item) => (
-            <button
-              key={item}
-              onClick={() => scrollToSection(item)}
-              className="px-5 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-white transition-all rounded-full hover:bg-white/5"
-            >
-              {item}
-            </button>
-          ))}
-          <div className="w-px h-4 bg-white/10 mx-2" />
-          <a href="https://github.com/SuryaSankar99" target="_blank">
-            <Button variant="ghost" size="icon" className="h-9 w-9 rounded-full hover:bg-white/10 text-slate-400 hover:text-white">
-              <Github className="w-4 h-4" />
-            </Button>
-          </a>
-        </motion.div>
-      </nav> */}
-
       <Navbar />
 
-      <motion.section id="hero" style={{ opacity, scale }} className="relative h-screen flex flex-col items-center justify-center text-center px-4 z-10">
+      <motion.section id="hero" style={{ opacity, scale }} className="relative min-h-[100dvh] flex flex-col items-center justify-center text-center px-4 z-10 overflow-hidden">
         <Badge variant="outline" className="mb-6 py-2 px-6 rounded-full border-white/10 bg-white/5 text-white tracking-[0.3em] font-black uppercase text-[10px]">
           Software Architect // 2026
         </Badge>
-        <h1 className="text-[14vw] sm:text-[12vw] md:text-[8rem] font-black leading-[0.9] tracking-tighter mb-8 italic break-words">
+        <h1 className="text-[14vw] sm:text-[12vw] md:text-[8rem] font-black leading-[0.9] tracking-tighter mb-8 italic break-words w-full">
           SURYA <span className="text-primary NOT-italic block sm:inline">SANKAR</span>
         </h1>
         <p className="max-w-2xl text-slate-400 text-base md:text-2xl font-light leading-relaxed mb-12 px-2">
@@ -204,12 +169,11 @@ export default function Portfolio() {
         </div>
 
         <motion.div animate={{ y: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 2 }} className="absolute bottom-10 left-1/2 -translate-x-1/2 hidden md:block">
-          <div className="w-px h-12 bg-linear-to-b from-primary to-transparent" />
+          <div className="w-px h-12 bg-gradient-to-b from-primary to-transparent" />
         </motion.div>
       </motion.section>
 
       <section id="About" className="container mx-auto px-4 py-20 md:py-32 relative z-10 overflow-hidden">
-        {/* FIX 4: Better mobile grid handling */}
         <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-4 max-w-7xl mx-auto">
           {stats.map((stat, i) => (
             <motion.div
@@ -232,22 +196,20 @@ export default function Portfolio() {
 
       <section className="container mx-auto px-4 py-32 border-t border-white/5" id="corestack">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-20">
-          {/* Left Side: Sticky Header */}
           <div className="lg:w-1/3 lg:sticky lg:top-32 h-fit">
             <Badge className="bg-blue-500/10 text-blue-400 border-blue-500/20 mb-6 rounded-full px-4 py-1 backdrop-blur-md">
               Technical Proficiency
             </Badge>
-            <h2 className="text-6xl md:text-8xl font-black tracking-tighter mb-10 leading-[0.85]">
+            <h2 className="text-5xl md:text-8xl font-black tracking-tighter mb-10 leading-[0.85]">
               CORE <br /><span className="text-blue-500 italic">STACK</span>
             </h2>
-            <p className="text-slate-400 text-xl font-light leading-relaxed">
+            <p className="text-slate-400 text-lg md:text-xl font-light leading-relaxed">
               Engineering scalable systems with a focus on <span className="text-white font-medium">high-availability</span>,
               <span className="text-white font-medium"> real-time synchronization</span>, and
               <span className="text-white font-medium"> multi-tenant security</span>.
             </p>
           </div>
 
-          {/* Right Side: Bento Grid */}
           <motion.div
             initial="hidden"
             whileInView="show"
@@ -256,7 +218,7 @@ export default function Portfolio() {
               hidden: { opacity: 0 },
               show: { opacity: 1, transition: { staggerChildren: 0.1 } }
             }}
-            className="lg:w-2/3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4"
+            className="lg:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-4"
           >
             {skillCategories.map((cat, i) => (
               <motion.div
@@ -267,32 +229,20 @@ export default function Portfolio() {
                 }}
                 className={`group relative p-8 rounded-[2rem] bg-white/2 border border-white/5 hover:border-blue-500/50 transition-all duration-500 overflow-hidden ${cat.span}`}
               >
-                <div className="absolute inset-0 bg-linear-to-br from-blue-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="relative z-10 h-full flex flex-col justify-between">
                   <div>
                     <div className="flex items-center justify-between mb-8">
                       <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-blue-400 group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-white transition-all duration-500">
                         {cat.icon}
                       </div>
-                      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-600">
-                  // {i + 1}
-                      </span>
+                      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-600">// {i + 1}</span>
                     </div>
-
-                    <h3 className="text-xl font-bold uppercase tracking-tight mb-4 group-hover:text-blue-400 transition-colors">
-                      {cat.name}
-                    </h3>
+                    <h3 className="text-xl font-bold uppercase tracking-tight mb-4 group-hover:text-blue-400 transition-colors">{cat.name}</h3>
                   </div>
-
                   <div className="flex flex-wrap gap-2 mt-auto">
                     {cat.skills.map((s) => (
-                      <span
-                        key={s}
-                        className="text-[9px] font-bold px-3 py-1.5 bg-white/5 rounded-md text-slate-500 border border-white/5 group-hover:border-blue-500/20 group-hover:text-slate-300 transition-all"
-                      >
-                        {s}
-                      </span>
+                      <span key={s} className="text-[9px] font-bold px-3 py-1.5 bg-white/5 rounded-md text-slate-500 border border-white/5 group-hover:border-blue-500/20 group-hover:text-slate-300 transition-all">{s}</span>
                     ))}
                   </div>
                 </div>
@@ -330,14 +280,14 @@ export default function Portfolio() {
                     <p className="text-slate-400 max-w-xl text-sm md:text-lg font-light leading-relaxed">{p.desc}</p>
                     <div className="flex flex-wrap gap-2 md:gap-3">
                       {p.tags.map(t => (
-                        <Badge key={t} className="rounded-full bg-white/5 border-white/10 text-slate-400 py-1 px-3 md:px-5 text-[10px] md:text-xs font-bold">
-                          {t}
-                        </Badge>
+                        <Badge key={t} className="rounded-full bg-white/5 border-white/10 text-slate-400 py-1 px-3 md:px-5 text-[10px] md:text-xs font-bold">{t}</Badge>
                       ))}
                     </div>
                   </div>
-                  <Button asChild className="h-16 w-16 md:h-24 md:w-24 rounded-full bg-white text-black hover:bg-blue-600 hover:text-white transition-all shrink-0">
-                    <a href={p.link}><ExternalLink className="w-6 h-6 md:w-8 md:h-8" /></a>
+                  <Button asChild className="h-16 w-16 md:h-24 md:w-24 rounded-full bg-white text-black hover:bg-blue-600 hover:text-white transition-all shrink-0 p-0">
+                    <a href={p.link} className="flex items-center justify-center w-full h-full">
+                      <ExternalLink className="w-6 h-6 md:w-8 md:h-8" />
+                    </a>
                   </Button>
                 </div>
               </motion.div>
@@ -350,7 +300,7 @@ export default function Portfolio() {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-32">
             <span className="text-[10px] font-black tracking-[0.8em] text-blue-500 uppercase mb-4 block">Professional History</span>
-            <h2 className="text-6xl font-black tracking-tighter">THE JOURNEY</h2>
+            <h2 className="text-5xl md:text-6xl font-black tracking-tighter">THE JOURNEY</h2>
           </div>
 
           <div className="space-y-1">
@@ -372,26 +322,20 @@ export default function Portfolio() {
       </section>
 
       <footer id="Contact" className="container mx-auto px-4 py-40 text-center relative border-t border-white/5">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-linear-to-r from-transparent via-blue-500 to-transparent" />
-
-        <motion.div
-          whileInView={{ y: [20, 0], opacity: [0, 1] }}
-          className="space-y-12"
-        >
-          <h2 className="text-6xl md:text-[8rem] font-black tracking-tighter leading-none relative z-10">LET'S <span className="text-blue-500">CONNECT</span></h2>
-
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
+        <motion.div whileInView={{ y: [20, 0], opacity: [0, 1] }} className="space-y-12">
+          <h2 className="text-5xl md:text-[8rem] font-black tracking-tighter leading-none relative z-10">LET'S <span className="text-blue-500">CONNECT</span></h2>
           <div className="flex flex-col items-center gap-6 relative z-10">
-            <a href="mailto:suryamca99@gmail.com" className="text-2xl md:text-5xl font-light hover:text-blue-500 transition-all duration-500 border-b border-white/10 hover:border-blue-500 pb-2">
+            <a href="mailto:suryamca99@gmail.com" className="text-xl md:text-5xl font-light hover:text-blue-500 transition-all duration-500 border-b border-white/10 hover:border-blue-500 pb-2 break-all px-4">
               suryamca99@gmail.com
             </a>
-            <div className="flex gap-6 mt-8">
+            <div className="flex gap-4 md:gap-6 mt-8">
               <SocialIcon icon={<Linkedin />} link="https://www.linkedin.com/in/surya-s-444797272/" />
               <SocialIcon icon={<Github />} link="https://github.com/SuryaSankar99" />
               <SocialIcon icon={<Phone />} link="tel:+919791902508" />
             </div>
           </div>
         </motion.div>
-
         <div className="mt-60 flex flex-col md:flex-row justify-between items-center gap-8 text-[9px] font-black tracking-[0.4em] text-slate-600 uppercase border-t border-white/5 pt-12">
           <p>© 2026 SURYA SANKAR // ARCHITECTED FOR PERFORMANCE</p>
           <div className="flex gap-12">
@@ -410,19 +354,19 @@ function TimelineItem({ role, company, date, desc, isLatest }: any) {
       initial={{ opacity: 0, x: -20 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
-      className="group relative pl-16 border-l border-white/10 py-16 hover:border-blue-500 transition-all"
+      className="group relative pl-10 md:pl-16 border-l border-white/10 py-16 hover:border-blue-500 transition-all"
     >
       <div className={`absolute -left-1.5 top-20 h-3 w-3 rounded-full border-2 border-[#050505] transition-all duration-500 ${isLatest ? 'bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,1)]' : 'bg-slate-700 group-hover:bg-blue-500'}`} />
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
         <div>
           <span className="text-[10px] font-black tracking-[0.3em] text-blue-500 uppercase mb-2 block">{date}</span>
-          <h3 className="text-4xl font-black tracking-tighter">{role}</h3>
+          <h3 className="text-3xl md:text-4xl font-black tracking-tighter">{role}</h3>
         </div>
-        <div className="text-slate-400 font-black uppercase tracking-widest text-xs py-2 px-4 bg-white/5 rounded-lg border border-white/5">
+        <div className="text-slate-400 font-black uppercase tracking-widest text-[10px] md:text-xs py-2 px-4 bg-white/5 rounded-lg border border-white/5 w-fit">
           {company}
         </div>
       </div>
-      <p className="text-slate-400 max-w-3xl leading-relaxed text-lg font-light group-hover:text-slate-200 transition-colors">{desc}</p>
+      <p className="text-slate-400 max-w-3xl leading-relaxed text-base md:text-lg font-light group-hover:text-slate-200 transition-colors">{desc}</p>
     </motion.div>
   );
 }
@@ -430,7 +374,7 @@ function TimelineItem({ role, company, date, desc, isLatest }: any) {
 function SocialIcon({ icon, link }: { icon: any; link: string }) {
   return (
     <a href={link} target="_blank" rel="noreferrer">
-      <Button variant="outline" size="icon" className="h-14 w-14 rounded-2xl border-white/10 bg-white/5 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all">
+      <Button variant="outline" size="icon" className="h-12 w-12 md:h-14 md:w-14 rounded-2xl border-white/10 bg-white/5 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all">
         {icon}
       </Button>
     </a>
