@@ -130,13 +130,12 @@ export default function Portfolio() {
 
   return (
     <div className="min-h-screen bg-[#050505] text-white selection:bg-primary/50 overflow-x-hidden max-w-[100vw] font-sans relative">
-      
-      {/* Background Layer - Strict clipping for mobile blurs */}
+
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 blur-[150px] rounded-full animate-pulse" />
         <div className="absolute bottom-[10%] right-[-5%] w-[30%] h-[30%] bg-blue-600/10 blur-[120px] rounded-full" />
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.05] brightness-100" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:64px_64px]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-size-[64px_64px]" />
       </div>
 
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
@@ -147,11 +146,11 @@ export default function Portfolio() {
 
       <Navbar />
 
-      <motion.section id="hero" style={{ opacity, scale }} className="relative min-h-[100dvh] flex flex-col items-center justify-center text-center px-4 z-10 overflow-hidden">
+      <motion.section id="hero" style={{ opacity, scale }} className="relative min-h-dvh flex flex-col items-center justify-center text-center px-4 z-10 overflow-hidden">
         <Badge variant="outline" className="mb-6 py-2 px-6 rounded-full border-white/10 bg-white/5 text-white tracking-[0.3em] font-black uppercase text-[10px]">
           Software Architect // 2026
         </Badge>
-        <h1 className="text-[14vw] sm:text-[12vw] md:text-[8rem] font-black leading-[0.9] tracking-tighter mb-8 italic break-words w-full">
+        <h1 className="text-[14vw] sm:text-[12vw] md:text-[8rem] font-black leading-[0.9] tracking-tighter mb-8 italic wrap-break-words w-full">
           SURYA <span className="text-primary NOT-italic block sm:inline">SANKAR</span>
         </h1>
         <p className="max-w-2xl text-slate-400 text-base md:text-2xl font-light leading-relaxed mb-12 px-2">
@@ -164,12 +163,12 @@ export default function Portfolio() {
             </a>
           </Button>
           <Button variant="outline" size="lg" className="h-14 md:h-16 px-8 md:px-10 rounded-full border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md font-black uppercase tracking-widest text-[10px] md:text-xs" asChild>
-            <a download href="/SURYA.pdf">Download CV</a>
+            <a download href={`${import.meta.env.BASE_URL}Surya.pdf`}>Download CV</a>
           </Button>
         </div>
 
         <motion.div animate={{ y: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 2 }} className="absolute bottom-10 left-1/2 -translate-x-1/2 hidden md:block">
-          <div className="w-px h-12 bg-gradient-to-b from-primary to-transparent" />
+          <div className="w-px h-12 bg-linear-to-b from-primary to-transparent" />
         </motion.div>
       </motion.section>
 
@@ -181,8 +180,8 @@ export default function Portfolio() {
               whileHover={{ y: -5, backgroundColor: "rgba(255,255,255,0.05)" }}
               className="relative p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] bg-white/2 border border-white/5 flex flex-col justify-between h-48 md:h-70 overflow-hidden group transition-all"
             >
-              <div className={`absolute -right-4 -top-4 w-32 h-32 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-10 blur-3xl transition-opacity`} />
-              <div className={`w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-gradient-to-br ${stat.color} flex items-center justify-center text-white shadow-2xl`}>
+              <div className={`absolute -right-4 -top-4 w-32 h-32 bg-linear-to-br ${stat.color} opacity-0 group-hover:opacity-10 blur-3xl transition-opacity`} />
+              <div className={`w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-linear-to-br ${stat.color} flex items-center justify-center text-white shadow-2xl`}>
                 {stat.icon}
               </div>
               <div>
@@ -229,7 +228,7 @@ export default function Portfolio() {
                 }}
                 className={`group relative p-8 rounded-[2rem] bg-white/2 border border-white/5 hover:border-blue-500/50 transition-all duration-500 overflow-hidden ${cat.span}`}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-linear-to-br from-blue-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="relative z-10 h-full flex flex-col justify-between">
                   <div>
                     <div className="flex items-center justify-between mb-8">
@@ -268,7 +267,7 @@ export default function Portfolio() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className={`group relative p-px rounded-[2rem] md:rounded-[3.5rem] bg-gradient-to-br ${p.color} border border-white/10 overflow-hidden transition-all`}
+                className={`group relative p-px rounded-[2rem] md:rounded-[3.5rem] bg-linear-to-br ${p.color} border border-white/10 overflow-hidden transition-all`}
               >
                 <div className="bg-[#080808] rounded-[1.9rem] md:rounded-[3.4rem] p-6 md:p-16 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-12">
                   <div className="flex-1 space-y-4 md:space-y-8">
