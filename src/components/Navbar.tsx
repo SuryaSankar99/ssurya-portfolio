@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Github, Linkedin, Menu, X } from "lucide-react";
+import { Linkedin, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "./ui/button";
 
