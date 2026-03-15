@@ -148,10 +148,10 @@ export default function Portfolio() {
 
       <motion.section id="hero" style={{ opacity, scale }} className="relative min-h-dvh flex flex-col items-center justify-center text-center px-4 z-10 overflow-hidden">
         <Badge variant="outline" className="mb-6 py-2 px-6 rounded-full border-white/10 bg-white/5 text-white tracking-[0.3em] font-black uppercase text-[10px]">
-          Software Architect // 2026
+          Software Engineer // 2026
         </Badge>
         <h1 className="text-[14vw] sm:text-[12vw] md:text-[8rem] font-black leading-[0.9] tracking-tighter mb-8 italic wrap-break-words w-full">
-          SURYA <span className="text-primary NOT-italic block sm:inline">SANKAR</span>
+          SURYA <span className="text-slate-800 NOT-italic block sm:inline">SANKAR</span>
         </h1>
         <p className="max-w-2xl text-slate-400 text-base md:text-2xl font-light leading-relaxed mb-12 px-2">
           Hardening the <span className="text-white font-medium italic">core</span> refining the <span className="text-white font-medium">edge.</span> Specialized in mission-critical architectures and liquid UI.
@@ -336,9 +336,9 @@ export default function Portfolio() {
           </div>
         </motion.div>
         <div className="mt-60 flex flex-col md:flex-row justify-between items-center gap-8 text-[9px] font-black tracking-[0.4em] text-slate-600 uppercase border-t border-white/5 pt-12">
-          <p>© 2026 SURYA SANKAR // ARCHITECTED FOR PERFORMANCE</p>
+          <p>© 2026 SURYA SANKAR // ENGINEER FOR PERFORMANCE</p>
           <div className="flex gap-12">
-            <span className="text-slate-400">STATUS: AVAILABLE</span>
+            <span className="text-slate-400">STATUS: <span className="text-green-400">AVAILABLE</span></span>
             <a download href={"Surya.pdf"} className="text-white hover:text-blue-500 transition-colors">Resume.PDF</a>
           </div>
         </div>

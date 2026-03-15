@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Github, Menu, X } from "lucide-react";
+import { Github, Linkedin, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { Button } from "./ui/button";
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);
@@ -23,35 +24,30 @@ const Navbar = () => {
     }
 
     return (
-        <nav className="fixed top-6 left-0 right-0 z-[100] flex flex-col items-center px-4 pointer-events-none">
-            {/* Main Nav Container - Added pointer-events-auto to re-enable clicks */}
+        <nav className="fixed top-6 left-0 right-0 z-100 flex flex-col items-center px-4 pointer-events-none">
             <motion.div
                 initial={{ y: -20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 className="pointer-events-auto flex items-center gap-1 p-1.5 rounded-full border border-white/10 bg-black/60 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
             >
-                {/* Desktop Menu */}
                 <div className="hidden md:flex items-center gap-1">
                     {items.map((item) => (
-                        <button
+                        <Button
+                            variant={'ghost'}
                             key={item}
                             onClick={() => scrollToSection(item)}
                             className="px-5 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-white transition-colors rounded-full hover:bg-white/5"
                         >
                             {item}
-                        </button>
+                        </Button>
                     ))}
-
                     <div className="w-px h-4 bg-white/10 mx-2" />
-
-                    <a href="https://github.com/SuryaSankar99" target="_blank" rel="noreferrer">
-                        <button className="h-9 w-9 rounded-full hover:bg-white/10 text-slate-400 hover:text-white flex items-center justify-center transition-all">
-                            <Github className="w-4 h-4" />
-                        </button>
-                    </a>
+                    <Button size={'icon'} variant={'ghost'} className="rounded-full hover:bg-white/10 text-slate-400 hover:text-white" asChild>
+                        <a href="https://www.linkedin.com/in/surya-s-444797272/" target="_blank" rel="noreferrer">
+                            <Linkedin className="w-4 h-4" />
+                        </a>
+                    </Button>
                 </div>
-
-                {/* Mobile Toggle */}
                 <button
                     className="md:hidden text-slate-300 p-3 hover:text-white transition-colors"
                     onClick={() => setOpen(!open)}
@@ -61,7 +57,6 @@ const Navbar = () => {
                 </button>
             </motion.div>
 
-            {/* Mobile Menu Dropdown */}
             <AnimatePresence>
                 {open && (
                     <motion.div
@@ -87,12 +82,12 @@ const Navbar = () => {
                         <div className="h-px bg-white/10 my-2 mx-8" />
 
                         <a
-                            href="https://github.com/SuryaSankar99"
+                            href="https://www.linkedin.com/in/surya-s-444797272/"
                             target="_blank"
                             rel="noreferrer"
                             className="flex items-center justify-center py-4 text-slate-400 hover:text-white transition-colors"
                         >
-                            <Github size={20} />
+                            <Linkedin size={20} />
                         </a>
                     </motion.div>
                 )}
