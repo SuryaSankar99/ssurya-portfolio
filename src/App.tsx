@@ -163,7 +163,7 @@ export default function Portfolio() {
             </a>
           </Button>
           <Button variant="outline" size="lg" className="h-14 md:h-16 px-8 md:px-10 rounded-full border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md font-black uppercase tracking-widest text-[10px] md:text-xs" asChild>
-            <a download href={`${import.meta.env.BASE_URL}Surya.pdf`}>Download CV</a>
+            <a download href={'Surya.pdf'}>Download CV</a>
           </Button>
         </div>
 
@@ -339,7 +339,7 @@ export default function Portfolio() {
           <p>© 2026 SURYA SANKAR // ARCHITECTED FOR PERFORMANCE</p>
           <div className="flex gap-12">
             <span className="text-slate-400">STATUS: AVAILABLE</span>
-            <a download href="/SURYA.pdf" className="text-white hover:text-blue-500 transition-colors">Resume.PDF</a>
+            <a download href={"Surya.pdf"} className="text-white hover:text-blue-500 transition-colors">Resume.PDF</a>
           </div>
         </div>
       </footer>
