@@ -118,7 +118,7 @@ export default function Portfolio() {
     let days = now.getDate() - joiningDate.getDate();
     if (days < 0) months -= 1;
     if (months < 0) { years -= 1; months += 12; }
-    setExperiences(`${years}Y ${months}M`);
+    setExperiences(`${years}.${months}Y`);
   }, []);
 
   const stats = [
@@ -131,10 +131,10 @@ export default function Portfolio() {
   return (
     <div className="min-h-screen bg-[#050505] text-white selection:bg-primary/50 overflow-x-hidden max-w-[100vw] font-sans relative">
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary blur-[150px] rounded-full animate-pulse" />
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[150px] rounded-full animate-pulse" />
         <div className="absolute bottom-[10%] right-[-5%] w-[30%] h-[30%] bg-blue-600/20 blur-[120px] rounded-full" />
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.05] brightness-100" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-size-[64px_64px]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff07_1px,transparent_1px),linear-gradient(to_bottom,#ffffff07_1px,transparent_1px)] bg-size-[64px_64px]" />
       </div>
 
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
