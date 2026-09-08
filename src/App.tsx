@@ -107,7 +107,7 @@ export default function Portfolio() {
   const { scrollYProgress } = useScroll();
   const [experiences, setExperiences] = useState<string>("");
 
-  const a = experiences;
+  console.log(experiences);
 
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.9]);
