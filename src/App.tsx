@@ -122,7 +122,7 @@ export default function Portfolio() {
   }, []);
 
   const stats = [
-    { label: "Experience", value: experiences, icon: <Calendar />, color: "from-blue-600 to-cyan-400" },
+    { label: "Experience", value: "3.5+", icon: <Calendar />, color: "from-blue-600 to-cyan-400" },
     { label: "Production", value: "10+", icon: <Rocket />, color: "from-purple-600 to-pink-500" },
     { label: "Tech Stack", value: "25+", icon: <Cpu />, color: "from-amber-500 to-orange-600" },
     { label: "Users", value: "4K+", icon: <Users />, color: "from-emerald-500 to-teal-600" },
