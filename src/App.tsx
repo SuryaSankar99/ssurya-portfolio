@@ -111,7 +111,7 @@ export default function Portfolio() {
   const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.9]);
 
   useEffect(() => {
-    const joiningDate = new Date("2023-10-01");
+    const joiningDate = new Date("2023-08-01");
     const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
     let years = now.getFullYear() - joiningDate.getFullYear();
     let months = now.getMonth() - joiningDate.getMonth();
@@ -303,16 +303,23 @@ export default function Portfolio() {
 
           <div className="space-y-1">
             <TimelineItem
+              role="Full Stack Engineer"
+              company="Ticket9"
+              date="4 Months"
+              isLatest
+              desc="Driving end-to-end development of scalable, multi-tenant platforms using Next.js, React, TypeScript, Node.js, and Firebase. Architecting RBAC systems, booking and reservation workflows, Multi payment gateway integrations, automated background processes, and production-grade APIs. Responsible for deployment, performance optimization, security, and reliability across the application lifecycle."
+            />
+            <TimelineItem
               role="Software Engineer"
               company="Pranati Technologies"
-              date="2025 - PRESENT"
+              date="1 Year 2 Months"
               isLatest
               desc="Leading the development of multi-tenant architectures. Managed full-lifecycle deployments using AWS (EC2/S3) for heavy lifting and Vercel for frontend edge performance. Automated delivery via GitHub Actions."
             />
             <TimelineItem
               role="Junior Software Engineer"
               company="Pranati Technologies"
-              date="2023 - 2025"
+              date="1 Year 10 Months"
               desc="Architected responsive UI systems with Tailwind CSS and Framer Motion. Built robust backends using Node.js and Express while managing complex CMS deployments."
             />
           </div>
