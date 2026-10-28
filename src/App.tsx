@@ -72,7 +72,7 @@ const projects = [
     tags: ["Next.js", "Node.js", "PostgreSQL", "Vercel"],
     color: "from-blue-600/20 to-cyan-600/20",
     accent: "bg-cyan-500",
-    link: "https://magmacms.vercel.app/projects"
+    link: "https://magmacms.vercel.app"
   },
   {
     title: "IPTV Stream",
