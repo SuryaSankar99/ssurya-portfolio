@@ -1,389 +1,586 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { motion, useScroll, useTransform } from "framer-motion";
 import {
-  Calendar,
+  AnimatePresence,
+  MotionConfig,
+  animate,
+  motion,
+  useInView,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
+import {
+  ArrowDown,
+  ArrowRight,
+  ArrowUpRight,
+  Check,
   Cpu,
   Database,
-  ExternalLink,
+  Download,
   Github,
   Layout,
   Linkedin,
-  MoveUpRight,
+  Mail,
   Phone,
   Rocket,
   Server,
-  Users,
-  Wifi
+  Wifi,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { MouseEvent, ReactNode } from "react";
 import Navbar from "./components/Navbar";
+
+/* ------------------------------ Data ------------------------------ */
+
+const rotatingWords = ["multi-tenant platforms", "real-time systems", "headless CMS tooling", "secure APIs"];
+
+const techStrip = [
+  "React.js", "Next.js", "TypeScript", "Node.js", "PostgreSQL", "Redis", "Docker", "AWS",
+  "WebSockets", "Express.js", "Tailwind CSS", "Prisma", "GitHub Actions", "Firebase",
+];
+
+const counters = [
+  { to: 3.5, decimals: 1, suffix: "+", label: "Years of experience" },
+  { to: 10, decimals: 0, suffix: "+", label: "Projects in production" },
+  { to: 25, decimals: 0, suffix: "+", label: "Technologies used" },
+  { to: 4, decimals: 0, suffix: "K+", label: "Users on live platforms" },
+];
+
+const strengths = [
+  "Multi-tenant architecture with database-per-tenant isolation and RBAC",
+  "Real-time systems with SignalR and WebSockets",
+  "Full deployments on AWS, Vercel and GitHub Actions",
+];
 
 const skillCategories = [
   {
-    name: "Frontend Architecture",
-    skills: ["React.js", "Vite.js", "Next.js", "TypeScript", "Tailwind CSS", "Shadcn", "SEO", "React Query", "Redux", "Context", "Zustand", "Shadcn UI", "Framer Motion", "Responsive Design", "ZOD"],
+    name: "Frontend",
     icon: <Layout />,
-    span: "md:col-span-2",
-    description: "Building SEO-optimized, responsive interfaces with complex state management."
+    description: "SEO-optimized, responsive interfaces with complex state management.",
+    skills: ["React.js", "Next.js", "Vite.js", "TypeScript", "Tailwind CSS", "Shadcn UI", "Framer Motion", "React Query", "Redux", "Zustand", "Context", "ZOD", "SEO", "Responsive Design"],
   },
   {
     name: "Backend & Security",
-    skills: ["Node.js", "Express.js", "REST API", "JWT", "RBAC", "OAuth 2.0", "Redis"],
     icon: <Server />,
-    span: "md:col-span-1",
-    description: "Secure, scalable API design with pattern-based architecture."
+    description: "Secure, scalable API design with pattern-based architecture.",
+    skills: ["Node.js", "Express.js", "REST API", "JWT", "RBAC", "OAuth 2.0", "Redis"],
   },
   {
-    name: "Database Engineering",
-    skills: ["PostgreSQL", "MySQL", "MongoDB", "MariaDB", "SQLite", "Knex.js", "Prisma", "Schema Design"],
+    name: "Databases",
     icon: <Database />,
-    span: "md:col-span-1",
-    description: "Specialized in database-per-tenant isolation and query optimization."
+    description: "Database-per-tenant isolation and query optimization.",
+    skills: ["PostgreSQL", "MySQL", "MongoDB", "MariaDB", "SQLite", "Knex.js", "Prisma", "Schema Design"],
   },
   {
     name: "DevOps & Tooling",
-    skills: ["Docker", "GitHub Actions", "PM2", "Linux", "npm Distribution", "CLI Dev", "AWS Exposure", "Vercel", "Netlify", "GitHub Pages", "Docker", "CI/CD Pipelines"],
     icon: <Rocket />,
-    span: "md:col-span-2",
-    description: "Automating deployments and publishing open-source packages."
+    description: "Automated deployments and open-source package publishing.",
+    skills: ["Docker", "GitHub Actions", "CI/CD Pipelines", "PM2", "Linux", "AWS", "Vercel", "Netlify", "GitHub Pages", "npm Distribution", "CLI Dev"],
   },
   {
-    name: "Real-Time Systems",
-    skills: ["SignalR", "WebSockets", "Event-Driven Mail", "Streaming SDKs", "Concurreny", "Streaming"],
+    name: "Real-time systems",
     icon: <Wifi />,
-    span: "md:col-span-1",
-    description: "Handled 1,000+ concurrent users for chat and live IPTV synchronization."
+    description: "Handled 1,000+ concurrent users for chat and live IPTV synchronization.",
+    skills: ["SignalR", "WebSockets", "Streaming SDKs", "Streaming", "Concurrency", "Event-Driven Mail"],
   },
   {
     name: "Architecture & QA",
-    skills: ["Microservices", "System Design", "Unit Testing (Jest)", "API Testing", "Agile",],
     icon: <Cpu />,
-    span: "md:col-span-1",
-    description: "End-to-end validation and modular service orchestration."
-  }
+    description: "End-to-end validation and modular service orchestration.",
+    skills: ["Microservices", "System Design", "Unit Testing (Jest)", "API Testing", "Agile"],
+  },
 ];
 
 const projects = [
   {
     title: "Magma CMS",
-    type: "Headless Platform",
+    type: "Headless platform",
     desc: "Multi-tenant headless CMS with database-per-tenant isolation, dynamic RBAC, and event-driven email workflows.",
     tags: ["Next.js", "Node.js", "PostgreSQL", "Vercel"],
-    color: "from-blue-600/20 to-cyan-600/20",
-    accent: "bg-cyan-500",
-    link: "https://magamcms-web-fz58.vercel.app/"
+    link: "https://magamcms-web-fz58.vercel.app/",
+    host: "magamcms-web-fz58.vercel.app",
+    gradient: "from-[#06130c] to-[#166534]",
   },
   {
     title: "IPTV Stream",
-    type: "Streaming Platform",
+    type: "Streaming platform",
     desc: "Scalable web platform supporting live streaming, subscriptions, and SignalR-based client synchronization.",
     tags: ["React", ".NET", "SignalR", "MySQL"],
-    color: "from-purple-600/20 to-pink-600/20",
-    accent: "bg-purple-500",
-    link: "https://iptv.pranatitechnologies.com/home"
+    link: "https://iptv.pranatitechnologies.com/home",
+    host: "iptv.pranatitechnologies.com",
+    gradient: "from-[#0e2a1c] to-[#15803d]",
   },
   {
     title: "Member System",
     type: "Microservices",
-    desc: "Membership platform handling subscriptions and secure payments with secure JWT and real-time admin monitoring.",
+    desc: "Membership platform handling subscriptions and secure payments, with JWT auth and real-time admin monitoring.",
     tags: ["TypeScript", ".NET Core", "Tailwind", "SignalR"],
-    color: "from-emerald-600/20 to-teal-600/20",
-    accent: "bg-emerald-500",
-    link: "https://mms.pranatitechnologies.com/home"
+    link: "https://mms.pranatitechnologies.com/home",
+    host: "mms.pranatitechnologies.com",
+    gradient: "from-[#052e16] to-[#14532d]",
   },
   {
     title: "RT Module",
     type: "Communication",
     desc: "Scalable messaging module supporting 1,000+ concurrent users with optimized message persistence.",
-    tags: [".NET", "SignalR", "MySQL", "Real-Time"],
-    color: "from-orange-600/20 to-amber-600/20",
-    accent: "bg-orange-500",
-    link: ""
+    tags: [".NET", "SignalR", "MySQL", "Real-time"],
+    link: "",
+    host: "internal project",
+    gradient: "from-[#0f3d26] to-[#1a6b3c]",
   },
 ];
 
-export default function Portfolio() {
+const experience = [
+  {
+    role: "Full Stack Engineer",
+    company: "Ticket9",
+    date: "4 months",
+    isLatest: true,
+    desc: "Driving end-to-end development of scalable, multi-tenant platforms using Next.js, React, TypeScript, Node.js, and Firebase. Architecting RBAC systems, booking and reservation workflows, multi-gateway payment integrations, automated background processes, and production-grade APIs. Responsible for deployment, performance optimization, security, and reliability across the application lifecycle.",
+  },
+  {
+    role: "Software Engineer",
+    company: "Pranati Technologies",
+    date: "1 year 2 months",
+    desc: "Leading the development of multi-tenant architectures. Managed full-lifecycle deployments using AWS (EC2/S3) for heavy lifting and Vercel for frontend edge performance. Automated delivery via GitHub Actions.",
+  },
+  {
+    role: "Junior Software Engineer",
+    company: "Pranati Technologies",
+    date: "1 year 10 months",
+    desc: "Architected responsive UI systems with Tailwind CSS and Framer Motion. Built robust backends using Node.js and Express while managing complex CMS deployments.",
+  },
+];
+
+/* --------------------------- Small pieces --------------------------- */
+
+function ScrollProgress() {
   const { scrollYProgress } = useScroll();
-  const [experiences, setExperiences] = useState<string>("");
-
-  console.log(experiences);
-
-  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.9]);
-
-  useEffect(() => {
-    const joiningDate = new Date("2023-08-01");
-    const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
-    let years = now.getFullYear() - joiningDate.getFullYear();
-    let months = now.getMonth() - joiningDate.getMonth();
-    let days = now.getDate() - joiningDate.getDate();
-    if (days < 0) months -= 1;
-    if (months < 0) { years -= 1; months += 12; }
-    setExperiences(`${years}.${months}Y`);
-  }, []);
-
-  const stats = [
-    { label: "Experience", value: "3.5+", icon: <Calendar />, color: "from-blue-600 to-cyan-400" },
-    { label: "Production", value: "10+", icon: <Rocket />, color: "from-purple-600 to-pink-500" },
-    { label: "Tech Stack", value: "25+", icon: <Cpu />, color: "from-amber-500 to-orange-600" },
-    { label: "Users", value: "4K+", icon: <Users />, color: "from-emerald-500 to-teal-600" },
-  ];
-
+  const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 });
   return (
-    <div className="min-h-screen bg-[#050505] text-white selection:bg-primary/50 overflow-x-hidden max-w-[100vw] font-sans relative">
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[150px] rounded-full animate-pulse" />
-        <div className="absolute bottom-[10%] right-[-5%] w-[30%] h-[30%] bg-blue-600/20 blur-[120px] rounded-full" />
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.05] brightness-100" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff07_1px,transparent_1px),linear-gradient(to_bottom,#ffffff07_1px,transparent_1px)] bg-size-[64px_64px]" />
-      </div>
-
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-blue-900/20 blur-[180px] rounded-full" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-900/20 blur-[180px] rounded-full" />
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay" />
-      </div>
-
-      <Navbar />
-
-      <motion.section id="hero" style={{ opacity, scale }} className="relative mt-14 min-h-dvh flex flex-col items-center justify-center text-center px-4 z-10 overflow-hidden">
-        <Badge variant="outline" className="mb-6 py-2 px-6 rounded-full border-white/10 bg-white/5 text-white tracking-[0.3em] font-black uppercase text-[10px]">
-          Software Engineer // 2026
-        </Badge>
-        <h1 className="text-[14vw] sm:text-[12vw] md:text-[8rem] font-black leading-[0.9] tracking-tighter mb-8 italic wrap-break-words w-full">
-          SURYA <span className="text-slate-800 NOT-italic block sm:inline">SANKAR</span>
-        </h1>
-        <p className="max-w-2xl text-slate-400 text-base md:text-2xl font-light leading-relaxed mb-12 px-2">
-          Hardening the <span className="text-white font-medium italic">core</span> refining the <span className="text-white font-medium">edge.</span> Specialized in mission-critical architectures and liquid UI.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 md:gap-6 w-full sm:w-auto px-6 sm:px-0">
-          <Button asChild size="lg" className="h-14 md:h-16 px-8 md:px-10 rounded-full bg-white text-black hover:bg-primary hover:text-white transition-all duration-500 font-black uppercase tracking-widest text-[10px] md:text-xs group">
-            <a href="#corestack">
-              Start Exploration <MoveUpRight className="ml-2 w-4 h-4 group-hover:rotate-45 transition-transform" />
-            </a>
-          </Button>
-          <Button variant="outline" size="lg" className="h-14 md:h-16 px-8 md:px-10 rounded-full border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md font-black uppercase tracking-widest text-[10px] md:text-xs" asChild>
-            <a download href={'Surya.pdf'}>Download CV</a>
-          </Button>
-        </div>
-
-        <motion.div animate={{ y: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 2 }} className="absolute bottom-10 left-1/2 -translate-x-1/2 hidden md:block">
-          <div className="w-px h-12 bg-linear-to-b from-primary to-transparent" />
-        </motion.div>
-      </motion.section>
-
-      <section id="About" className="container mx-auto px-4 py-20 md:py-32 relative z-10 overflow-hidden">
-        <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-4 max-w-7xl mx-auto">
-          {stats.map((stat, i) => (
-            <motion.div
-              key={i}
-              whileHover={{ y: -5, backgroundColor: "rgba(255,255,255,0.05)" }}
-              className="relative p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] bg-white/2 border border-white/5 flex flex-col justify-between h-48 md:h-70 overflow-hidden group transition-all"
-            >
-              <div className={`absolute -right-4 -top-4 w-32 h-32 bg-linear-to-br ${stat.color} opacity-0 group-hover:opacity-10 blur-3xl transition-opacity`} />
-              <div className={`w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-linear-to-br ${stat.color} flex items-center justify-center text-white shadow-2xl`}>
-                {stat.icon}
-              </div>
-              <div>
-                <motion.div className="text-4xl md:text-6xl font-black tracking-tighter mb-1 italic">{stat.value}</motion.div>
-                <div className="text-[9px] md:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] text-slate-500 font-black">{stat.label}</div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      <section className="container mx-auto px-4 py-32 border-t border-white/5" id="corestack">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-20">
-          <div className="lg:w-1/3 lg:sticky lg:top-32 h-fit">
-            <Badge className="bg-blue-500/10 text-blue-400 border-blue-500/20 mb-6 rounded-full px-4 py-1 backdrop-blur-md">
-              Technical Proficiency
-            </Badge>
-            <h2 className="text-5xl md:text-8xl font-black tracking-tighter mb-10 leading-[0.85]">
-              CORE <br /><span className="text-blue-500 italic">STACK</span>
-            </h2>
-            <p className="text-slate-400 text-lg md:text-xl font-light leading-relaxed">
-              Engineering scalable systems with a focus on <span className="text-white font-medium">high-availability</span>,
-              <span className="text-white font-medium"> real-time synchronization</span>, and
-              <span className="text-white font-medium"> multi-tenant security</span>.
-            </p>
-          </div>
-
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={{
-              hidden: { opacity: 0 },
-              show: { opacity: 1, transition: { staggerChildren: 0.1 } }
-            }}
-            className="lg:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-4"
-          >
-            {skillCategories.map((cat, i) => (
-              <motion.div
-                key={i}
-                variants={{
-                  hidden: { y: 20, opacity: 0 },
-                  show: { y: 0, opacity: 1 }
-                }}
-                className={`group relative p-8 rounded-[2rem] bg-white/2 border border-white/5 hover:border-blue-500/50 transition-all duration-500 overflow-hidden ${cat.span}`}
-              >
-                <div className="absolute inset-0 bg-linear-to-br from-blue-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative z-10 h-full flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center justify-between mb-8">
-                      <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-blue-400 group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-white transition-all duration-500">
-                        {cat.icon}
-                      </div>
-                      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-600">// {i + 1}</span>
-                    </div>
-                    <h3 className="text-xl font-bold uppercase tracking-tight mb-4 group-hover:text-blue-400 transition-colors">{cat.name}</h3>
-                  </div>
-                  <div className="flex flex-wrap gap-2 mt-auto">
-                    {cat.skills.map((s) => (
-                      <span key={s} className="text-[9px] font-bold px-3 py-1.5 bg-white/5 rounded-md text-slate-500 border border-white/5 group-hover:border-blue-500/20 group-hover:text-slate-300 transition-all">{s}</span>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      <section id="Work" className="container mx-auto px-4 py-20 md:py-32 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-24 gap-8">
-            <div className="relative">
-              <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase italic opacity-10 absolute top-0 left-0 -translate-y-1/2 pointer-events-none whitespace-nowrap">Projects</h2>
-              <h2 className="text-4xl md:text-7xl font-black tracking-tighter relative z-10 leading-none">ENGINEERED <br /> <span className="text-blue-500">SYSTEMS</span></h2>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 gap-6 md:gap-10">
-            {projects.map((p, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className={`group relative p-px rounded-[2rem] md:rounded-[3.5rem] bg-linear-to-br ${p.color} border border-white/10 overflow-hidden transition-all`}
-              >
-                <div className="bg-[#080808] rounded-[1.9rem] md:rounded-[3.4rem] p-6 md:p-16 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-12">
-                  <div className="flex-1 space-y-4 md:space-y-8">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-2 h-2 rounded-full ${p.accent} animate-pulse`} />
-                      <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">{p.type}</span>
-                    </div>
-                    <h3 className="text-3xl md:text-7xl font-black tracking-tighter group-hover:text-blue-400 transition-colors leading-tight">{p.title}</h3>
-                    <p className="text-slate-400 max-w-xl text-sm md:text-lg font-light leading-relaxed">{p.desc}</p>
-                    <div className="flex flex-wrap gap-2 md:gap-3">
-                      {p.tags.map(t => (
-                        <Badge key={t} className="rounded-full bg-white/5 border-white/10 text-slate-400 py-1 px-3 md:px-5 text-[10px] md:text-xs font-bold">{t}</Badge>
-                      ))}
-                    </div>
-                  </div>
-                  <Button asChild className="h-16 w-16 md:h-24 md:w-24 rounded-full bg-white text-black hover:bg-blue-600 hover:text-white transition-all shrink-0 p-0">
-                    <a href={p.link} className="flex items-center justify-center w-full h-full">
-                      <ExternalLink className="w-6 h-6 md:w-8 md:h-8" />
-                    </a>
-                  </Button>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="Experience" className="container mx-auto px-4 py-40">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-32">
-            <span className="text-[10px] font-black tracking-[0.8em] text-blue-500 uppercase mb-4 block">Professional History</span>
-            <h2 className="text-5xl md:text-6xl font-black tracking-tighter">THE JOURNEY</h2>
-          </div>
-
-          <div className="space-y-1">
-            <TimelineItem
-              role="Full Stack Engineer"
-              company="Ticket9"
-              date="4 Months"
-              isLatest
-              desc="Driving end-to-end development of scalable, multi-tenant platforms using Next.js, React, TypeScript, Node.js, and Firebase. Architecting RBAC systems, booking and reservation workflows, Multi payment gateway integrations, automated background processes, and production-grade APIs. Responsible for deployment, performance optimization, security, and reliability across the application lifecycle."
-            />
-            <TimelineItem
-              role="Software Engineer"
-              company="Pranati Technologies"
-              date="1 Year 2 Months"
-              isLatest
-              desc="Leading the development of multi-tenant architectures. Managed full-lifecycle deployments using AWS (EC2/S3) for heavy lifting and Vercel for frontend edge performance. Automated delivery via GitHub Actions."
-            />
-            <TimelineItem
-              role="Junior Software Engineer"
-              company="Pranati Technologies"
-              date="1 Year 10 Months"
-              desc="Architected responsive UI systems with Tailwind CSS and Framer Motion. Built robust backends using Node.js and Express while managing complex CMS deployments."
-            />
-          </div>
-        </div>
-      </section>
-
-      <footer id="Contact" className="container mx-auto px-4 py-40 text-center relative border-t border-white/5">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
-        <motion.div whileInView={{ y: [20, 0], opacity: [0, 1] }} className="space-y-12">
-          <h2 className="text-5xl md:text-[8rem] font-black tracking-tighter leading-none relative z-10">LET'S <span className="text-blue-500">CONNECT</span></h2>
-          <div className="flex flex-col items-center gap-6 relative z-10">
-            <a href="mailto:suryamca99@gmail.com" className="text-xl md:text-5xl font-light hover:text-blue-500 transition-all duration-500 border-b border-white/10 hover:border-blue-500 pb-2 break-all px-4">
-              suryamca99@gmail.com
-            </a>
-            <div className="flex gap-4 md:gap-6 mt-8">
-              <SocialIcon icon={<Linkedin />} link="https://www.linkedin.com/in/surya-s-444797272/" />
-              <SocialIcon icon={<Github />} link="https://github.com/SuryaSankar99" />
-              <SocialIcon icon={<Phone />} link="tel:+919791902508" />
-            </div>
-          </div>
-        </motion.div>
-        <div className="mt-60 flex flex-col md:flex-row justify-between items-center gap-8 text-[9px] font-black tracking-[0.4em] text-slate-600 uppercase border-t border-white/5 pt-12">
-          <p>© 2026 SURYA SANKAR // ENGINEER FOR PERFORMANCE</p>
-          <div className="flex gap-12">
-            <span className="text-slate-400">STATUS: <span className="text-green-400">AVAILABLE</span></span>
-            <a download href={"Surya.pdf"} className="text-white hover:text-blue-500 transition-colors">Resume.PDF</a>
-          </div>
-        </div>
-      </footer>
-    </div>
+    <motion.div
+      style={{ scaleX }}
+      className="fixed inset-x-0 top-0 z-[60] h-1 origin-left bg-linear-to-r from-primary to-mint"
+    />
   );
 }
 
-function TimelineItem({ role, company, date, desc, isLatest }: any) {
+function Reveal({ children, className, delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true }}
-      className="group relative pl-10 md:pl-16 border-l border-white/10 py-16 hover:border-blue-500 transition-all"
+      className={className}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.55, delay, ease: "easeOut" }}
     >
-      <div className={`absolute -left-1.5 top-20 h-3 w-3 rounded-full border-2 border-[#050505] transition-all duration-500 ${isLatest ? 'bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,1)]' : 'bg-slate-700 group-hover:bg-blue-500'}`} />
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-        <div>
-          <span className="text-[10px] font-black tracking-[0.3em] text-blue-500 uppercase mb-2 block">{date}</span>
-          <h3 className="text-3xl md:text-4xl font-black tracking-tighter">{role}</h3>
-        </div>
-        <div className="text-slate-400 font-black uppercase tracking-widest text-[10px] md:text-xs py-2 px-4 bg-white/5 rounded-lg border border-white/5 w-fit">
-          {company}
-        </div>
-      </div>
-      <p className="text-slate-400 max-w-3xl leading-relaxed text-base md:text-lg font-light group-hover:text-slate-200 transition-colors">{desc}</p>
+      {children}
     </motion.div>
   );
 }
 
-function SocialIcon({ icon, link }: { icon: any; link: string }) {
+function RotatingWords() {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setI((n) => (n + 1) % rotatingWords.length), 2600);
+    return () => clearInterval(t);
+  }, []);
   return (
-    <a href={link} target="_blank" rel="noreferrer">
-      <Button variant="outline" size="icon" className="h-12 w-12 md:h-14 md:w-14 rounded-2xl border-white/10 bg-white/5 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all">
-        {icon}
-      </Button>
+    <span className="relative inline-block min-h-[1.25em] align-bottom">
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={rotatingWords[i]}
+          initial={{ y: 18, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -18, opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          className="inline-block bg-linear-to-r from-mint to-emerald-400 bg-clip-text pb-1 text-transparent"
+        >
+          {rotatingWords[i]}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+}
+
+function Counter({ to, decimals, suffix }: { to: number; decimals: number; suffix: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    if (!inView) return;
+    const controls = animate(0, to, { duration: 1.6, ease: "easeOut", onUpdate: setVal });
+    return () => controls.stop();
+  }, [inView, to]);
+  return (
+    <span ref={ref}>
+      {val.toFixed(decimals)}
+      {suffix}
+    </span>
+  );
+}
+
+function SpotlightCard({ children, className = "" }: { children: ReactNode; className?: string }) {
+  const onMove = (e: MouseEvent<HTMLDivElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`);
+    e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
+  };
+  return (
+    <div onMouseMove={onMove} className={`spotlight ${className}`}>
+      <div className="relative">{children}</div>
+    </div>
+  );
+}
+
+function SectionHeading({ title, children, dark = false }: { title: string; children?: ReactNode; dark?: boolean }) {
+  return (
+    <Reveal className="mb-12 max-w-2xl">
+      <h2 className={`text-4xl font-semibold tracking-tight md:text-5xl ${dark ? "text-white" : "text-foreground"}`}>
+        {title}
+      </h2>
+      {children && (
+        <p className={`mt-4 text-lg md:text-xl ${dark ? "text-white/70" : "text-muted-foreground"}`}>{children}</p>
+      )}
+    </Reveal>
+  );
+}
+
+function SocialIcon({ icon, link, label }: { icon: ReactNode; link: string; label: string }) {
+  return (
+    <a
+      href={link}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={label}
+      className="grid size-12 place-items-center rounded-xl border border-white/15 bg-white/5 text-white transition-colors hover:bg-mint hover:text-ink [&_svg]:size-5"
+    >
+      {icon}
     </a>
+  );
+}
+
+/* ------------------------------ Page ------------------------------ */
+
+export default function Portfolio() {
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress: heroProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const glowY = useTransform(heroProgress, [0, 1], [0, 160]);
+  const contentY = useTransform(heroProgress, [0, 1], [0, 60]);
+
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: timelineProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start 75%", "end 60%"],
+  });
+
+  return (
+    <MotionConfig reducedMotion="user">
+      <div className="min-h-screen overflow-x-clip bg-background text-foreground selection:bg-primary/25">
+        <ScrollProgress />
+        <Navbar />
+
+        {/* Hero */}
+        <section ref={heroRef} id="Home" className="relative flex min-h-dvh items-center overflow-hidden bg-ink text-white">
+          <div className="grid-fade pointer-events-none absolute inset-0" />
+          <motion.div style={{ y: glowY }} className="pointer-events-none absolute inset-0">
+            <div className="drift absolute -left-32 -top-32 size-[520px] rounded-full bg-primary/40 blur-[120px]" />
+            <div className="drift absolute -bottom-24 right-0 size-[460px] rounded-full bg-mint/20 blur-[130px]" />
+          </motion.div>
+
+          <motion.div
+            style={{ y: contentY }}
+            className="relative mx-auto grid w-full max-w-6xl items-center gap-12 px-5 pb-24 pt-32 lg:grid-cols-[1.25fr_0.75fr]"
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+              <div className="mb-7 inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-white/85">
+                <span className="relative flex size-2.5">
+                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-mint/70" />
+                  <span className="relative inline-flex size-2.5 rounded-full bg-mint" />
+                </span>
+                Available for work
+              </div>
+              <h1 className="text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
+                Hi, I'm Surya Sankar.
+                <span className="mt-3 block text-3xl font-medium text-white/80 md:text-5xl">
+                  I build <RotatingWords />
+                </span>
+              </h1>
+              <p className="mt-7 max-w-xl text-lg text-white/70 md:text-xl">
+                Full stack engineer with 3.5+ years of experience shipping secure backends and fast React interfaces to production.
+              </p>
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <a
+                  href="#Work"
+                  className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-mint px-7 font-semibold text-ink transition-colors hover:bg-white"
+                >
+                  View projects <ArrowRight size={18} />
+                </a>
+                <a
+                  download
+                  href="Surya.pdf"
+                  className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-7 font-medium text-white transition-colors hover:bg-white/10"
+                >
+                  <Download size={18} /> Download CV
+                </a>
+              </div>
+
+              <div className="mt-10 grid grid-cols-3 gap-3 lg:hidden">
+                {[
+                  ["4K+", "users"],
+                  ["10+", "in production"],
+                  ["1,000+", "concurrent"],
+                ].map(([v, l]) => (
+                  <div key={l} className="rounded-xl border border-white/10 bg-white/5 p-3">
+                    <div className="font-display text-xl font-semibold">{v}</div>
+                    <div className="text-sm text-white/60">{l}</div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            <div className="relative hidden h-[420px] lg:block">
+              <div className="floaty absolute left-4 top-0 w-60 rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-md">
+                <div className="font-display text-4xl font-semibold text-mint">4K+</div>
+                <div className="mt-1 text-white/70">users on live platforms</div>
+              </div>
+              <div
+                className="floaty absolute right-0 top-40 w-64 rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-md"
+                style={{ animationDelay: "-2s" }}
+              >
+                <div className="font-display text-4xl font-semibold text-mint">1,000+</div>
+                <div className="mt-1 text-white/70">concurrent users handled in real time</div>
+              </div>
+              <div
+                className="floaty absolute bottom-0 left-0 w-64 rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-md"
+                style={{ animationDelay: "-4s" }}
+              >
+                <div className="text-sm text-white/60">Currently</div>
+                <div className="mt-1 font-display text-xl font-semibold">Full Stack Engineer</div>
+                <div className="text-white/70">at Ticket9</div>
+              </div>
+            </div>
+          </motion.div>
+
+          <a
+            href="#About"
+            aria-label="Scroll down"
+            className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 items-center gap-2 text-sm text-white/55 hover:text-white md:flex"
+          >
+            Scroll <ArrowDown size={16} className="animate-bounce" />
+          </a>
+        </section>
+
+        {/* Tech strip */}
+        <div className="marquee overflow-hidden border-y border-white/10 bg-deep py-5">
+          <div className="marquee-track">
+            {[...techStrip, ...techStrip].map((t, i) => (
+              <span key={i} className="flex items-center text-lg font-medium text-white/80">
+                <span className="px-6">{t}</span>
+                <span className="size-1.5 rounded-full bg-mint" />
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* About */}
+        <section id="About" className="mx-auto grid max-w-6xl items-center gap-14 px-5 py-24 md:py-32 lg:grid-cols-2">
+          <Reveal>
+            <h2 className="text-4xl font-semibold leading-tight tracking-tight md:text-5xl">
+              Software that holds up under real traffic.
+            </h2>
+            <p className="mt-6 text-lg text-foreground/75 md:text-xl">
+              I design multi-tenant backends, real-time systems and the interfaces on top of them, then take them all the way to production. Most of my work has been at Pranati Technologies and Ticket9.
+            </p>
+            <ul className="mt-8 space-y-4">
+              {strengths.map((s) => (
+                <li key={s} className="flex items-start gap-3 text-base md:text-lg">
+                  <span className="mt-1 grid size-6 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground">
+                    <Check size={14} strokeWidth={3} />
+                  </span>
+                  {s}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+
+          <div className="grid grid-cols-2 gap-4">
+            {counters.map((c, i) => (
+              <Reveal key={c.label} delay={i * 0.08}>
+                <div className="h-full rounded-2xl border border-border bg-card p-6 shadow-sm md:p-8">
+                  <div className="font-display text-5xl font-semibold tracking-tight text-primary md:text-6xl">
+                    <Counter to={c.to} decimals={c.decimals} suffix={c.suffix} />
+                  </div>
+                  <div className="mt-2 text-base text-muted-foreground">{c.label}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </section>
+
+        {/* Stack */}
+        <section id="Stack" className="relative overflow-hidden bg-ink py-24 text-white md:py-32">
+          <div className="pointer-events-none absolute -right-40 top-0 size-[500px] rounded-full bg-primary/30 blur-[140px]" />
+          <div className="relative mx-auto max-w-6xl px-5">
+            <SectionHeading title="Core stack" dark>
+              Scalable systems with a focus on high availability, real-time synchronization, and multi-tenant security.
+            </SectionHeading>
+            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+              {skillCategories.map((cat, i) => (
+                <Reveal key={cat.name} delay={(i % 3) * 0.08} className="h-full">
+                  <SpotlightCard className="h-full rounded-2xl border border-white/10 bg-white/[0.04] p-6 transition-colors hover:border-mint/40">
+                    <div className="mb-4 grid size-11 place-items-center rounded-xl bg-mint/10 text-mint [&_svg]:size-5">
+                      {cat.icon}
+                    </div>
+                    <h3 className="text-xl font-semibold">{cat.name}</h3>
+                    <p className="mt-1.5 text-base text-white/65">{cat.description}</p>
+                    <div className="mt-5 flex flex-wrap gap-2">
+                      {cat.skills.map((s) => (
+                        <span key={s} className="rounded-md bg-white/10 px-2.5 py-1 text-sm text-white/85">
+                          {s}
+                        </span>
+                      ))}
+                    </div>
+                  </SpotlightCard>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Work */}
+        <section id="Work" className="mx-auto max-w-6xl px-5 py-24 md:py-32">
+          <SectionHeading title="Projects">
+            Platforms I've built and shipped, from headless CMS tooling to live streaming.
+          </SectionHeading>
+          <div className="flex flex-col gap-10">
+            {projects.map((p, i) => (
+              <div key={p.title} className="sticky" style={{ top: 96 + i * 18 }}>
+                <article
+                  className={`grid gap-8 rounded-3xl bg-linear-to-br p-7 text-white shadow-2xl shadow-black/25 md:min-h-[380px] md:grid-cols-[1.1fr_0.9fr] md:p-12 ${p.gradient}`}
+                >
+                  <div className="flex flex-col items-start">
+                    <span className="rounded-full bg-white/10 px-3 py-1 text-sm text-mint">{p.type}</span>
+                    <h3 className="mt-5 text-4xl font-semibold tracking-tight md:text-5xl">{p.title}</h3>
+                    <p className="mt-4 max-w-xl text-base text-white/80 md:text-lg">{p.desc}</p>
+                    <div className="mt-6 flex flex-wrap gap-2">
+                      {p.tags.map((t) => (
+                        <span key={t} className="rounded-full border border-white/20 px-3 py-1 text-sm text-white/90">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="mt-auto pt-8">
+                      {p.link ? (
+                        <a
+                          href={p.link}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-2 rounded-full bg-mint px-6 py-3 font-semibold text-ink transition-colors hover:bg-white"
+                        >
+                          Visit site <ArrowUpRight size={18} />
+                        </a>
+                      ) : (
+                        <span className="text-sm text-white/60">Internal project, no public link</span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="hidden self-center rounded-2xl border border-white/15 bg-white/5 p-3 backdrop-blur md:block">
+                    <div className="flex items-center gap-1.5 px-2 pb-3">
+                      <i className="size-2.5 rounded-full bg-white/30" />
+                      <i className="size-2.5 rounded-full bg-white/30" />
+                      <i className="size-2.5 rounded-full bg-white/30" />
+                      <span className="ml-3 truncate rounded-md bg-white/10 px-3 py-1 text-xs text-white/65">{p.host}</span>
+                    </div>
+                    <div className="space-y-3 rounded-xl bg-ink/50 p-5">
+                      <div className="h-3 w-2/5 rounded bg-mint/80" />
+                      <div className="h-2.5 w-full rounded bg-white/15" />
+                      <div className="h-2.5 w-4/5 rounded bg-white/15" />
+                      <div className="grid grid-cols-3 gap-3 pt-3">
+                        <div className="h-16 rounded-lg bg-white/10" />
+                        <div className="h-16 rounded-lg bg-mint/25" />
+                        <div className="h-16 rounded-lg bg-white/10" />
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Experience */}
+        <section id="Experience" className="border-t border-border bg-card py-24 md:py-32">
+          <div className="mx-auto max-w-4xl px-5">
+            <SectionHeading title="Experience">Where I've worked and what I've owned.</SectionHeading>
+            <div ref={timelineRef} className="relative">
+              <div className="absolute bottom-2 left-[7px] top-2 w-0.5 bg-border" />
+              <motion.div
+                style={{ scaleY: timelineProgress }}
+                className="absolute bottom-2 left-[7px] top-2 w-0.5 origin-top bg-primary"
+              />
+              <div className="space-y-8">
+                {experience.map((e) => (
+                  <Reveal key={e.role + e.company} className="relative pl-10">
+                    <span
+                      className={`absolute left-0 top-2 size-4 rounded-full border-4 border-card ${
+                        e.isLatest ? "bg-primary ring-4 ring-primary/20" : "bg-primary"
+                      }`}
+                    />
+                    <div className="rounded-2xl border border-border bg-background p-6 md:p-8">
+                      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                        <h3 className="text-xl font-semibold md:text-2xl">{e.role}</h3>
+                        <span className="font-medium text-primary">{e.company}</span>
+                      </div>
+                      <p className="mt-1 text-sm text-muted-foreground">{e.date}</p>
+                      <p className="mt-4 text-base text-foreground/75 md:text-lg">{e.desc}</p>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Contact */}
+        <section id="Contact" className="relative overflow-hidden bg-ink text-white">
+          <div className="pointer-events-none absolute -left-40 bottom-0 size-[520px] rounded-full bg-primary/40 blur-[140px]" />
+          <div className="pointer-events-none absolute -right-24 -top-24 size-[420px] rounded-full bg-mint/15 blur-[130px]" />
+          <div className="relative mx-auto max-w-6xl px-5 py-28 md:py-40">
+            <Reveal>
+              <h2 className="max-w-3xl text-5xl font-semibold leading-[1.05] tracking-tight md:text-7xl">
+                Let's build something together.
+              </h2>
+              <p className="mt-6 max-w-xl text-lg text-white/70 md:text-xl">
+                Have a project or a role in mind? Send me an email and I'll get back to you.
+              </p>
+              <a
+                href="mailto:suryamca99@gmail.com"
+                className="mt-10 inline-flex items-center gap-3 break-all text-xl font-medium text-mint underline-offset-8 hover:underline md:text-4xl"
+              >
+                <Mail className="size-6 shrink-0 md:size-8" /> suryamca99@gmail.com
+              </a>
+              <div className="mt-10 flex gap-3">
+                <SocialIcon label="LinkedIn" link="https://www.linkedin.com/in/surya-s-444797272/" icon={<Linkedin />} />
+                <SocialIcon label="GitHub" link="https://github.com/SuryaSankar99" icon={<Github />} />
+                <SocialIcon label="Call" link="tel:+919791902508" icon={<Phone />} />
+              </div>
+            </Reveal>
+          </div>
+          <footer className="relative border-t border-white/10">
+            <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-5 py-6 text-sm text-white/60 sm:flex-row">
+              <p>© 2026 Surya Sankar</p>
+              <a download href="Surya.pdf" className="font-medium text-mint hover:underline">
+                Download resume (PDF)
+              </a>
+            </div>
+          </footer>
+        </section>
+      </div>
+    </MotionConfig>
   );
 }

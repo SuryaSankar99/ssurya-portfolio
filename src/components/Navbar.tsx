@@ -1,99 +1,111 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Linkedin, Menu, X } from "lucide-react";
-import { useState } from "react";
-import { Button } from "./ui/button";
+import { Download, Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
+
+const items = ["About", "Stack", "Work", "Experience", "Contact"];
+
+const scrollToSection = (id: string) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const top = el.getBoundingClientRect().top + window.scrollY - 24;
+  window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
+};
 
 const Navbar = () => {
-    const [open, setOpen] = useState(false);
-    const items = ["About", "Work", "Experience", "Contact"];
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("");
 
-    const scrollToSection = (id: string) => {
+  useEffect(() => {
+    const onScroll = () => {
+      let current = "";
+      for (const id of items) {
         const el = document.getElementById(id);
-        if (el) {
-            const offset = 100;
-            const bodyRect = document.body.getBoundingClientRect().top;
-            const elementRect = el.getBoundingClientRect().top;
-            const elementPosition = elementRect - bodyRect;
-            const offsetPosition = elementPosition - offset;
+        if (el && el.getBoundingClientRect().top <= window.innerHeight * 0.4) current = id;
+      }
+      setActive(current);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: "smooth"
-            });
-        }
-    }
+  return (
+    <div className="pointer-events-none fixed inset-x-0 top-4 z-50 flex justify-center px-4">
+      <div className="relative">
+        <nav className="pointer-events-auto flex items-center gap-1 rounded-full border border-white/10 bg-ink/70 p-1.5 shadow-lg shadow-black/30 backdrop-blur-xl">
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            aria-label="Back to top"
+            className="grid size-9 cursor-pointer place-items-center rounded-full bg-mint font-display text-sm font-bold text-ink"
+          >
+            S
+          </button>
 
-    return (
-        <nav className="fixed top-6 left-0 right-0 z-100 flex flex-col items-center px-4 pointer-events-none">
-            <motion.div
-                initial={{ y: -20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                className="pointer-events-auto flex items-center gap-1 p-1.5 rounded-full border border-white/10 bg-black/60 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
-            >
-                <div className="hidden md:flex items-center gap-1">
-                    {items.map((item) => (
-                        <Button
-                            variant={'ghost'}
-                            key={item}
-                            onClick={() => scrollToSection(item)}
-                            className="px-5 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-white transition-colors rounded-full hover:bg-white/5"
-                        >
-                            {item}
-                        </Button>
-                    ))}
-                    <div className="w-px h-4 bg-white/10 mx-2" />
-                    <Button size={'icon'} variant={'ghost'} className="rounded-full hover:bg-white/10 text-slate-400 hover:text-white" asChild>
-                        <a href="https://www.linkedin.com/in/surya-s-444797272/" target="_blank" rel="noreferrer">
-                            <Linkedin className="w-4 h-4" />
-                        </a>
-                    </Button>
-                </div>
-                <button
-                    className="md:hidden text-slate-300 p-3 hover:text-white transition-colors"
-                    onClick={() => setOpen(!open)}
-                    aria-label="Toggle Menu"
-                >
-                    {open ? <X size={18} /> : <Menu size={18} />}
-                </button>
-            </motion.div>
+          <div className="hidden items-center md:flex">
+            {items.map((item) => (
+              <button
+                key={item}
+                onClick={() => scrollToSection(item)}
+                className={`cursor-pointer rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                  active === item ? "bg-white/10 text-white" : "text-white/65 hover:text-white"
+                }`}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
 
-            <AnimatePresence>
-                {open && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                        transition={{ duration: 0.2, ease: "circOut" }}
-                        className="pointer-events-auto absolute top-16 w-[calc(100vw-32px)] max-w-[280px] bg-black/80 backdrop-blur-3xl border border-white/10 rounded-[2rem] p-2 mt-2 shadow-2xl md:hidden overflow-hidden"
-                    >
-                        {items.map((item, idx) => (
-                            <motion.button
-                                key={item}
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: idx * 0.03 }}
-                                className="block w-full text-center py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-white hover:bg-white/5 rounded-2xl transition-all"
-                                onClick={() => { setOpen(false); scrollToSection(item) }}
-                            >
-                                {item}
-                            </motion.button>
-                        ))}
+          <a
+            download
+            href="Surya.pdf"
+            className="ml-1 hidden items-center gap-2 rounded-full bg-mint px-4 py-2 text-sm font-semibold text-ink transition-colors hover:bg-white sm:inline-flex"
+          >
+            <Download size={15} /> Resume
+          </a>
 
-                        <div className="h-px bg-white/10 my-2 mx-8" />
-
-                        <a
-                            href="https://www.linkedin.com/in/surya-s-444797272/"
-                            target="_blank"
-                            rel="noreferrer"
-                            className="flex items-center justify-center py-4 text-slate-400 hover:text-white transition-colors"
-                        >
-                            <Linkedin size={20} />
-                        </a>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+          <button
+            className="grid size-9 cursor-pointer place-items-center rounded-full text-white md:hidden"
+            onClick={() => setOpen(!open)}
+            aria-label="Toggle menu"
+            aria-expanded={open}
+          >
+            {open ? <X size={18} /> : <Menu size={18} />}
+          </button>
         </nav>
-    );
+
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              initial={{ opacity: 0, y: -8, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -8, scale: 0.97 }}
+              transition={{ duration: 0.18 }}
+              className="pointer-events-auto absolute right-0 top-14 w-64 rounded-2xl border border-white/10 bg-ink/95 p-2 shadow-2xl backdrop-blur-xl md:hidden"
+            >
+              {items.map((item) => (
+                <button
+                  key={item}
+                  onClick={() => {
+                    setOpen(false);
+                    scrollToSection(item);
+                  }}
+                  className="block w-full cursor-pointer rounded-xl px-4 py-3 text-left text-base text-white/85 hover:bg-white/10"
+                >
+                  {item}
+                </button>
+              ))}
+              <a
+                download
+                href="Surya.pdf"
+                className="mt-1 flex items-center justify-center gap-2 rounded-xl bg-mint px-4 py-3 font-semibold text-ink"
+              >
+                <Download size={16} /> Download resume
+              </a>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
 };
 
 export default Navbar;
