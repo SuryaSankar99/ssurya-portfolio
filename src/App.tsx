@@ -304,7 +304,7 @@ export default function Portfolio() {
                 Available for work
               </div>
               <h1 className="text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
-                Hi, I'm Surya Sankar.
+                Hi, I'm Surya S.
                 <span className="mt-3 block text-3xl font-medium text-white/80 md:text-5xl">
                   I build <RotatingWords />
                 </span>
@@ -573,7 +573,7 @@ export default function Portfolio() {
           </div>
           <footer className="relative border-t border-white/10">
             <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-5 py-6 text-sm text-white/60 sm:flex-row">
-              <p>© 2026 Surya Sankar</p>
+              <p>© 2026 Surya S</p>
               <a download href="Surya.pdf" className="font-medium text-mint hover:underline">
                 Download resume (PDF)
               </a>
