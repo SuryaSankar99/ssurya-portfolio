@@ -151,7 +151,7 @@ const experience = [
   {
     role: "Full Stack Engineer",
     company: "Ticket9",
-    date: "4 months",
+    date: "5 months",
     isLatest: true,
     desc: "Driving end-to-end development of scalable, multi-tenant platforms using Next.js, React, TypeScript, Node.js, and Firebase. Architecting RBAC systems, booking and reservation workflows, multi-gateway payment integrations, automated background processes, and production-grade APIs. Responsible for deployment, performance optimization, security, and reliability across the application lifecycle.",
   },
