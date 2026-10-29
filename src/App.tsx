@@ -133,7 +133,7 @@ const projects = [
     desc: "Monument ticketing with Razorpay, PhonePe, reservation dashboards, Cloud Tasks, and payment webhook integration.",
     tags: ["Next.js", "Node.js", "Firebase", "Razorpay", "PhonePe", "Cloud Tasks"],
     link: "https://www.ticket9.in/monument-new/",
-    host: "Ticket9",
+    host: "https://www.ticket9.in/monument-new/",
     gradient: "from-[#0f3d26] to-[#1a6b3c]",
   },
   {
@@ -141,8 +141,8 @@ const projects = [
     type: "Security & Optimization",
     desc: "Restructured Next.js application, upgraded dependencies, fixed vulnerabilities, prevented XSS attacks, and improved security and build stability.",
     tags: ["Next.js", "Cybersecurity", "XSS Prevention", "Dependency Auditing", "Code Refactoring", "Web Security"],
-    link: "",
-    host: "Ticket9",
+    link: "https://www.theticket9.in",
+    host: "https://www.theticket9.in",
     gradient: "from-[#0f3d26] to-[#1a6b3c]",
   },
 ];
