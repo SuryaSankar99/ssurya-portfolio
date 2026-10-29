@@ -143,7 +143,7 @@ const projects = [
     tags: ["Next.js", "Cybersecurity", "XSS Prevention", "Dependency Auditing", "Code Refactoring", "Web Security"],
     link: "",
     host: "Ticket9",
-    gradient: "from-[#172554] to-[#1e40af]",
+    gradient: "from-[#0f3d26] to-[#1a6b3c]",
   },
 ];
 
