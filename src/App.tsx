@@ -128,7 +128,7 @@ const projects = [
     gradient: "from-[#0f3d26] to-[#1a6b3c]",
   },
   {
-    title: "Monument Booking System",
+    title: "Booking System",
     type: "Booking & Payments",
     desc: "Monument ticketing with Razorpay, PhonePe, reservation dashboards, Cloud Tasks, and payment webhook integration.",
     tags: ["Next.js", "Node.js", "Firebase", "Razorpay", "PhonePe", "Cloud Tasks"],
@@ -137,7 +137,7 @@ const projects = [
     gradient: "from-[#0f3d26] to-[#1a6b3c]",
   },
   {
-    title: "Security & Codebase Modernization",
+    title: "Security & Codebase",
     type: "Security & Optimization",
     desc: "Restructured Next.js application, upgraded dependencies, fixed vulnerabilities, prevented XSS attacks, and improved security and build stability.",
     tags: ["Next.js", "Cybersecurity", "XSS Prevention", "Dependency Auditing", "Code Refactoring", "Web Security"],
