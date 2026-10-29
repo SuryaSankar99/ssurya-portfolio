@@ -136,6 +136,15 @@ const projects = [
     host: "Ticket9",
     gradient: "from-[#0f3d26] to-[#1a6b3c]",
   },
+  {
+    title: "Security & Codebase Modernization",
+    type: "Security & Optimization",
+    desc: "Restructured the entire Next.js application, upgraded dependencies, remediated security vulnerabilities, implemented XSS attack prevention, and improved application security, code maintainability, and build stability.",
+    tags: ["Next.js", "Cybersecurity", "XSS Prevention", "Dependency Auditing", "Code Refactoring", "Web Security"],
+    link: "",
+    host: "Ticket9",
+    gradient: "from-[#172554] to-[#1e40af]",
+  },
 ];
 
 const experience = [
